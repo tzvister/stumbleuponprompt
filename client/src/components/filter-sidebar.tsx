@@ -85,10 +85,10 @@ export function FilterSidebar({ onFiltersChange }: FilterSidebarProps) {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 sticky top-24">
+    <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
       <h3 className="font-semibold text-slate-900 mb-4">Filter Prompts</h3>
       
-      <div className="space-y-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
           <Label className="text-sm font-medium text-slate-700 mb-2 block">Categories</Label>
           <Select onValueChange={handleCategoryChange}>

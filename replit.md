@@ -1,6 +1,6 @@
 # Overview
 
-StumbleOnPrompt is a discovery platform for high-quality AI prompts with a "stumble through" experience. The application allows users to discover, preview, and try prompts with their preferred AI models through one-click deep links. It features a React frontend with shadcn/ui components, an Express backend, and uses Drizzle ORM with PostgreSQL for data persistence.
+StumbleUponPrompt is a discovery platform for high-quality AI prompts with a "stumble through" experience. The application allows users to discover, preview, and try prompts with their preferred AI models through one-click deep links. It features a React frontend with shadcn/ui components, an Express backend, and uses Drizzle ORM with PostgreSQL for data persistence.
 
 # User Preferences
 
@@ -13,6 +13,11 @@ Preferred communication style: Simple, everyday language.
 - Removed prompt rating and save functionality
 - Simplified data model to focus on core stumble experience
 - Fixed type safety issues and SelectItem component errors
+- Changed app name to "StumbleUponPrompt"
+- Removed search bar from navigation
+- Made Previous/Next navigation sticky above prompt title
+- Redesigned filters to be horizontal and more compact
+- Made layout consistent between mobile and desktop
 
 # System Architecture
 

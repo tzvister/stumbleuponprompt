@@ -166,20 +166,11 @@ export default function Home() {
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-2">
                 <Dice1 className="text-2xl text-primary" />
-                <h1 className="text-xl font-bold text-slate-900">StumbleOnPrompt</h1>
+                <h1 className="text-xl font-bold text-slate-900">StumbleUponPrompt</h1>
               </div>
             </div>
             
             <div className="flex items-center space-x-4">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-slate-400 w-4 h-4" />
-                <Input
-                  placeholder="Search prompts..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 w-64"
-                />
-              </div>
             </div>
           </div>
         </div>
@@ -221,15 +212,15 @@ export default function Home() {
       </section>
 
       {/* Main Content */}
-      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <div className="grid lg:grid-cols-4 gap-8">
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="space-y-6">
           {/* Filter Sidebar */}
-          <aside className="lg:col-span-1">
+          <div className="w-full">
             <FilterSidebar onFiltersChange={setFilters} />
-          </aside>
+          </div>
 
           {/* Prompt Display */}
-          <div className="lg:col-span-3">
+          <div className="w-full">
             {currentPrompt ? (
               <PromptCard
                 prompt={currentPrompt}
@@ -241,7 +232,7 @@ export default function Home() {
               <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-8 text-center">
                 <h3 className="text-xl font-semibold text-slate-900 mb-4">No prompts found</h3>
                 <p className="text-slate-600 mb-6">
-                  Try adjusting your filters or search query, or click the stumble button to discover a random prompt.
+                  Try adjusting your filters or click the stumble button to discover a random prompt.
                 </p>
                 <Button onClick={handleStumble} className="bg-primary hover:bg-blue-700">
                   <Dice1 className="mr-2 h-4 w-4" />
