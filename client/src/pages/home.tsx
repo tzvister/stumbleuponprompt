@@ -188,17 +188,6 @@ export default function Home() {
             A dead-simple way to stumble through high-quality prompts. Preview them, customize them, and try them instantly in your favorite AI model.
           </p>
           
-          <div className="mb-8">
-            <Button 
-              onClick={handleStumble}
-              disabled={stumbleMutation.isPending}
-              className="bg-primary hover:bg-blue-700 text-white font-semibold py-4 px-8 rounded-xl text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-200"
-              size="lg"
-            >
-              <Dice1 className="mr-3 h-5 w-5" />
-              {stumbleMutation.isPending ? "Stumbling..." : "Stumble a Prompt"}
-            </Button>
-          </div>
 
           <div className="flex flex-wrap justify-center items-center gap-4 text-sm text-slate-500">
             <span>Try instantly in:</span>

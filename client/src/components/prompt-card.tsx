@@ -106,7 +106,7 @@ export function PromptCard({ prompt, onNext, onPrevious, onUse }: PromptCardProp
       {/* Navigation - Sticky */}
       <div className="sticky top-0 bg-white border-b border-slate-200 px-8 py-4 rounded-t-xl z-10">
         <div className="flex justify-between items-center">
-          <Button variant="ghost" onClick={onPrevious}>
+          <Button onClick={onPrevious} className="bg-primary hover:bg-blue-700 text-white">
             <ChevronLeft className="w-4 h-4 mr-2" />
             Previous
           </Button>
@@ -115,7 +115,7 @@ export function PromptCard({ prompt, onNext, onPrevious, onUse }: PromptCardProp
             {/* Share button moved to title area */}
           </div>
           
-          <Button variant="ghost" onClick={onNext}>
+          <Button onClick={onNext} className="bg-primary hover:bg-blue-700 text-white">
             Next
             <ChevronRight className="w-4 h-4 ml-2" />
           </Button>
