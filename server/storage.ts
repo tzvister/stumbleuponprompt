@@ -35,11 +35,12 @@ export class MemStorage implements IStorage {
         const fullPrompt: Prompt = {
           ...prompt,
           id,
-          tags: Array.isArray(prompt.tags) ? prompt.tags : [],
-          variables: Array.isArray(prompt.variables) ? prompt.variables : [],
-          compatibleModels: Array.isArray(prompt.compatibleModels) ? prompt.compatibleModels : [],
-          examples: Array.isArray(prompt.examples) ? prompt.examples : [],
+          tags: Array.isArray(prompt.tags) ? prompt.tags as string[] : [],
+          variables: Array.isArray(prompt.variables) ? prompt.variables as string[] : [],
+          compatibleModels: Array.isArray(prompt.compatibleModels) ? prompt.compatibleModels as string[] : [],
+          examples: Array.isArray(prompt.examples) ? prompt.examples as Array<{input: string, output: string, model: string}> : [],
           estimatedTokens: prompt.estimatedTokens || 0,
+          version: prompt.version || '1.0.0',
           useCount: Math.floor(Math.random() * 2000) + 100,
           lastUpdated: new Date(),
           createdAt: new Date()
@@ -82,11 +83,12 @@ export class MemStorage implements IStorage {
     const prompt: Prompt = {
       ...insertPrompt,
       id,
-      tags: Array.isArray(insertPrompt.tags) ? insertPrompt.tags : [],
-      variables: Array.isArray(insertPrompt.variables) ? insertPrompt.variables : [],
-      compatibleModels: Array.isArray(insertPrompt.compatibleModels) ? insertPrompt.compatibleModels : [],
-      examples: Array.isArray(insertPrompt.examples) ? insertPrompt.examples : [],
+      tags: Array.isArray(insertPrompt.tags) ? insertPrompt.tags as string[] : [],
+      variables: Array.isArray(insertPrompt.variables) ? insertPrompt.variables as string[] : [],
+      compatibleModels: Array.isArray(insertPrompt.compatibleModels) ? insertPrompt.compatibleModels as string[] : [],
+      examples: Array.isArray(insertPrompt.examples) ? insertPrompt.examples as Array<{input: string, output: string, model: string}> : [],
       estimatedTokens: insertPrompt.estimatedTokens || 0,
+      version: insertPrompt.version || '1.0.0',
       useCount: 0,
       lastUpdated: new Date(),
       createdAt: new Date()
