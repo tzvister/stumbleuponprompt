@@ -30,12 +30,7 @@ export function PromptCard({ prompt, onNext, onPrevious, onUse }: PromptCardProp
   const promptVariables = extractVariables(prompt.prompt);
 
   const handleVariableChange = (variable: string, value: string) => {
-    console.log(`Setting variable "${variable}" to value:`, value);
-    setVariables(prev => {
-      const newState = { ...prev, [variable]: value };
-      console.log('Updated variables state:', newState);
-      return newState;
-    });
+    setVariables(prev => ({ ...prev, [variable]: value }));
   };
 
   const handleCopyPrompt = async () => {
@@ -70,14 +65,6 @@ export function PromptCard({ prompt, onNext, onPrevious, onUse }: PromptCardProp
       setTimeout(() => setShowTipOverlay(false), 2000);
     }
     
-    // Debug logging before generating links
-    console.log('=== DEBUG: Generating platform link ===');
-    console.log('Platform:', platform);
-    console.log('Prompt title:', prompt.title);
-    console.log('Prompt content:', prompt.prompt);
-    console.log('Current variables state:', variables);
-    console.log('Extracted variables from prompt:', promptVariables);
-    
     onUse();
     
     let link = '';
@@ -96,7 +83,6 @@ export function PromptCard({ prompt, onNext, onPrevious, onUse }: PromptCardProp
         break;
     }
 
-    console.log('Generated link:', link);
     window.open(link, '_blank');
   };
 
