@@ -9,14 +9,14 @@ export const prompts = pgTable("prompts", {
   description: text("description").notNull(),
   content: text("content").notNull(),
   tags: jsonb("tags").$type<string[]>().notNull().default([]),
-  category: text("category").notNull(),
   estimatedTokens: integer("estimated_tokens").notNull().default(0),
   useCount: integer("use_count").notNull().default(0),
   creatorName: text("creator_name").notNull(),
-  creatorInitials: text("creator_initials").notNull(),
   variables: jsonb("variables").$type<string[]>().notNull().default([]),
   compatibleModels: jsonb("compatible_models").$type<string[]>().notNull().default([]),
   examples: jsonb("examples").$type<Array<{input: string, output: string, model: string}>>().notNull().default([]),
+  version: text("version").notNull().default("1.0.0"),
+  lastUpdated: timestamp("last_updated").defaultNow(),
   createdAt: timestamp("created_at").defaultNow(),
 });
 
@@ -24,6 +24,7 @@ export const insertPromptSchema = createInsertSchema(prompts).omit({
   id: true,
   useCount: true,
   createdAt: true,
+  lastUpdated: true,
 });
 
 export type InsertPrompt = z.infer<typeof insertPromptSchema>;

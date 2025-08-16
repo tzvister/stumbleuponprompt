@@ -5,7 +5,6 @@ export interface IStorage {
   // Prompt operations
   getPrompt(id: string): Promise<Prompt | undefined>;
   getAllPrompts(): Promise<Prompt[]>;
-  getPromptsByCategory(category: string): Promise<Prompt[]>;
   getPromptsByTags(tags: string[]): Promise<Prompt[]>;
   searchPrompts(query: string): Promise<Prompt[]>;
   createPrompt(prompt: InsertPrompt): Promise<Prompt>;
@@ -51,13 +50,12 @@ No emotional buffering. No false encouragement. No diplomatic language. Pure sig
 </response_framework>
 
 Analyze: {situation}`,
-        tags: ["Analysis", "Productivity", "Business"],
-        category: "Analysis & Research",
+        tags: ["Analysis", "Productivity", "Business", "Analysis & Research"],
         estimatedTokens: 350,
         creatorName: "John Doe",
-        creatorInitials: "JD",
         variables: ["{situation}"],
         compatibleModels: ["GPT-4", "Claude 3", "Gemini Pro"],
+        version: "1.0.0",
         examples: [
           {
             input: "Help me with my startup idea",
@@ -72,13 +70,12 @@ Analyze: {situation}`,
         content: `Pretend you are an expert with 20 years of experience in {industry/topic}. Break down the core principles a total beginner must understand. Use analogies, step-by-step logic, and simplify everything like I'm 5.
 
 Topic to explain: {topic}`,
-        tags: ["Education", "Learning", "Simplification"],
-        category: "Writing & Content",
+        tags: ["Education", "Learning", "Simplification", "Writing & Content"],
         estimatedTokens: 120,
         creatorName: "Sarah Chen",
-        creatorInitials: "SC",
         variables: ["{industry/topic}", "{topic}"],
         compatibleModels: ["GPT-4", "Claude 3", "Gemini Pro"],
+        version: "1.0.0",
         examples: []
       },
       {
@@ -87,13 +84,12 @@ Topic to explain: {topic}`,
         content: `Act as my personal thought partner. I'll describe {my idea/problem}, and I want you to question every assumption, point out blind spots, and help me evolve it into something 10x better.
 
 My idea/problem: {idea_or_problem}`,
-        tags: ["Strategy", "Innovation", "Problem Solving"],
-        category: "Business & Strategy",
+        tags: ["Strategy", "Innovation", "Problem Solving", "Business & Strategy"],
         estimatedTokens: 80,
         creatorName: "Alex Rivera",
-        creatorInitials: "AR",
         variables: ["{my idea/problem}", "{idea_or_problem}"],
         compatibleModels: ["GPT-4", "Claude 3"],
+        version: "1.0.0",
         examples: []
       },
       {
@@ -103,13 +99,12 @@ My idea/problem: {idea_or_problem}`,
 
 Type of content: {content_type}
 Original content: {original_content}`,
-        tags: ["Copywriting", "Marketing", "Sales"],
-        category: "Writing & Content",
+        tags: ["Copywriting", "Marketing", "Sales", "Writing & Content"],
         estimatedTokens: 200,
         creatorName: "Maria Santos",
-        creatorInitials: "MS",
         variables: ["{landing page/sales pitch/email}", "{content_type}", "{original_content}"],
         compatibleModels: ["GPT-4", "Claude 3", "Gemini Pro"],
+        version: "1.0.0",
         examples: []
       },
       {
@@ -138,13 +133,12 @@ Guidelines:
 - Use formatting (headings, bullets) to make it skimmable and readable
 
 Act like you're preparing a research memo for a CEO or investor who wants to sound smart in a meeting — no fluff, just value.`,
-        tags: ["Research", "Analysis", "Business Intelligence"],
-        category: "Analysis & Research",
+        tags: ["Research", "Analysis", "Business Intelligence", "Analysis & Research"],
         estimatedTokens: 450,
         creatorName: "David Kim",
-        creatorInitials: "DK",
         variables: ["{topic}"],
         compatibleModels: ["GPT-4", "Claude 3", "Gemini Pro"],
+        version: "1.0.0",
         examples: []
       }
     ];
@@ -160,6 +154,7 @@ Act like you're preparing a research memo for a CEO or investor who wants to sou
         examples: Array.isArray(prompt.examples) ? prompt.examples : [],
         estimatedTokens: prompt.estimatedTokens || 0,
         useCount: Math.floor(Math.random() * 2000) + 100,
+        lastUpdated: new Date(),
         createdAt: new Date()
       };
       this.prompts.set(id, fullPrompt);
@@ -175,9 +170,6 @@ Act like you're preparing a research memo for a CEO or investor who wants to sou
     return Array.from(this.prompts.values());
   }
 
-  async getPromptsByCategory(category: string): Promise<Prompt[]> {
-    return Array.from(this.prompts.values()).filter(p => p.category === category);
-  }
 
   async getPromptsByTags(tags: string[]): Promise<Prompt[]> {
     return Array.from(this.prompts.values()).filter(p => 
@@ -205,6 +197,7 @@ Act like you're preparing a research memo for a CEO or investor who wants to sou
       examples: Array.isArray(insertPrompt.examples) ? insertPrompt.examples : [],
       estimatedTokens: insertPrompt.estimatedTokens || 0,
       useCount: 0,
+      lastUpdated: new Date(),
       createdAt: new Date()
     };
     this.prompts.set(id, prompt);

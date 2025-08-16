@@ -227,7 +227,7 @@ export function PromptCard({ prompt, onNext, onPrevious, onUse }: PromptCardProp
               <div className="flex items-center space-x-2 mt-1">
                 <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
                   <span className="text-white text-sm font-medium">
-                    {prompt.creatorInitials}
+                    {prompt.creatorName.charAt(0)}
                   </span>
                 </div>
                 <span className="text-slate-600">{prompt.creatorName}</span>

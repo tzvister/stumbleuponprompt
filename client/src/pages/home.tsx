@@ -15,7 +15,7 @@ export default function Home() {
   const [prompts, setPrompts] = useState<Prompt[]>([]);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [filters, setFilters] = useState({
-    categories: [] as string[],
+    tags: [] as string[],
     models: [] as string[],
     tokenRange: "",
   });
@@ -69,9 +69,9 @@ export default function Home() {
 
     let filtered = [...allPrompts];
 
-    // Apply category filter
-    if (filters.categories.length > 0) {
-      filtered = filtered.filter(p => filters.categories.includes(p.category));
+    // Apply tag filter
+    if (filters.tags.length > 0) {
+      filtered = filtered.filter(p => filters.tags.some(tag => p.tags.includes(tag)));
     }
 
     // Apply model filter

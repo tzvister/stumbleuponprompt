@@ -18,13 +18,11 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // Get all prompts
   app.get("/api/prompts", async (req, res) => {
     try {
-      const { category, tags, search } = req.query;
+      const { tags, search } = req.query;
       
       let prompts;
       if (search) {
         prompts = await storage.searchPrompts(search as string);
-      } else if (category) {
-        prompts = await storage.getPromptsByCategory(category as string);
       } else if (tags) {
         const tagArray = (tags as string).split(',');
         prompts = await storage.getPromptsByTags(tagArray);

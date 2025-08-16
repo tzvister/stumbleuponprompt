@@ -7,7 +7,7 @@ import { X, ChevronDown, ChevronUp, Filter } from "lucide-react";
 
 interface FilterSidebarProps {
   onFiltersChange: (filters: {
-    categories: string[];
+    tags: string[];
     models: string[];
     tokenRange: string;
   }) => void;
@@ -15,12 +15,26 @@ interface FilterSidebarProps {
   onToggleCollapse: () => void;
 }
 
-const categories = [
+const tags = [
   "Writing & Content",
   "Analysis & Research", 
   "Creative & Design",
   "Business & Strategy",
-  "Technical & Code"
+  "Technical & Code",
+  "Analysis",
+  "Productivity",
+  "Business",
+  "Education",
+  "Learning",
+  "Simplification",
+  "Strategy",
+  "Innovation",
+  "Problem Solving",
+  "Copywriting",
+  "Marketing",
+  "Sales",
+  "Research",
+  "Business Intelligence"
 ];
 
 const models = [
@@ -30,16 +44,16 @@ const models = [
 ];
 
 export function FilterSidebar({ onFiltersChange, isCollapsed, onToggleCollapse }: FilterSidebarProps) {
-  const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [selectedModels, setSelectedModels] = useState<string[]>([]);
   const [tokenRange, setTokenRange] = useState<string>("");
 
-  const handleCategoryChange = (value: string) => {
-    if (value && !selectedCategories.includes(value)) {
-      const newCategories = [...selectedCategories, value];
-      setSelectedCategories(newCategories);
+  const handleTagChange = (value: string) => {
+    if (value && !selectedTags.includes(value)) {
+      const newTags = [...selectedTags, value];
+      setSelectedTags(newTags);
       onFiltersChange({
-        categories: newCategories,
+        tags: newTags,
         models: selectedModels,
         tokenRange
       });
@@ -51,18 +65,18 @@ export function FilterSidebar({ onFiltersChange, isCollapsed, onToggleCollapse }
       const newModels = [...selectedModels, value];
       setSelectedModels(newModels);
       onFiltersChange({
-        categories: selectedCategories,
+        tags: selectedTags,
         models: newModels,
         tokenRange
       });
     }
   };
 
-  const removeCategoryFilter = (category: string) => {
-    const newCategories = selectedCategories.filter(c => c !== category);
-    setSelectedCategories(newCategories);
+  const removeTagFilter = (tag: string) => {
+    const newTags = selectedTags.filter(t => t !== tag);
+    setSelectedTags(newTags);
     onFiltersChange({
-      categories: newCategories,
+      tags: newTags,
       models: selectedModels,
       tokenRange
     });
@@ -72,7 +86,7 @@ export function FilterSidebar({ onFiltersChange, isCollapsed, onToggleCollapse }
     const newModels = selectedModels.filter(m => m !== model);
     setSelectedModels(newModels);
     onFiltersChange({
-      categories: selectedCategories,
+      tags: selectedTags,
       models: newModels,
       tokenRange
     });
@@ -81,13 +95,13 @@ export function FilterSidebar({ onFiltersChange, isCollapsed, onToggleCollapse }
   const handleTokenRangeChange = (value: string) => {
     setTokenRange(value);
     onFiltersChange({
-      categories: selectedCategories,
+      tags: selectedTags,
       models: selectedModels,
       tokenRange: value
     });
   };
 
-  const hasActiveFilters = selectedCategories.length > 0 || selectedModels.length > 0 || tokenRange;
+  const hasActiveFilters = selectedTags.length > 0 || selectedModels.length > 0 || tokenRange;
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-slate-200">
@@ -102,7 +116,7 @@ export function FilterSidebar({ onFiltersChange, isCollapsed, onToggleCollapse }
           Filter Prompts
           {hasActiveFilters && (
             <Badge variant="secondary" className="ml-2 text-xs">
-              {selectedCategories.length + selectedModels.length + (tokenRange ? 1 : 0)}
+              {selectedTags.length + selectedModels.length + (tokenRange ? 1 : 0)}
             </Badge>
           )}
           {isCollapsed ? <ChevronDown className="h-4 w-4" /> : <ChevronUp className="h-4 w-4" />}
@@ -114,26 +128,26 @@ export function FilterSidebar({ onFiltersChange, isCollapsed, onToggleCollapse }
         <div className="p-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
-          <Label className="text-sm font-medium text-slate-700 mb-2 block">Categories</Label>
-          <Select onValueChange={handleCategoryChange}>
+          <Label className="text-sm font-medium text-slate-700 mb-2 block">Tags</Label>
+          <Select onValueChange={handleTagChange}>
             <SelectTrigger>
-              <SelectValue placeholder="Add category filter" />
+              <SelectValue placeholder="Add tag filter" />
             </SelectTrigger>
             <SelectContent>
-              {categories.filter(cat => !selectedCategories.includes(cat)).map(category => (
-                <SelectItem key={category} value={category}>
-                  {category}
+              {tags.filter(tag => !selectedTags.includes(tag)).map(tag => (
+                <SelectItem key={tag} value={tag}>
+                  {tag}
                 </SelectItem>
               ))}
             </SelectContent>
           </Select>
-          {selectedCategories.length > 0 && (
+          {selectedTags.length > 0 && (
             <div className="flex flex-wrap gap-1 mt-2">
-              {selectedCategories.map(category => (
-                <Badge key={category} variant="secondary" className="text-xs">
-                  {category}
+              {selectedTags.map(tag => (
+                <Badge key={tag} variant="secondary" className="text-xs">
+                  {tag}
                   <button
-                    onClick={() => removeCategoryFilter(category)}
+                    onClick={() => removeTagFilter(tag)}
                     className="ml-1 hover:bg-slate-300 rounded-full"
                   >
                     <X className="w-3 h-3" />

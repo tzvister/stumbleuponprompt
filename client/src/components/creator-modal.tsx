@@ -28,13 +28,6 @@ interface CreatorModalProps {
   onOpenChange: (open: boolean) => void;
 }
 
-const categories = [
-  "Writing & Content",
-  "Analysis & Research", 
-  "Creative & Design",
-  "Business & Strategy",
-  "Technical & Code"
-];
 
 const models = [
   "GPT-4",
@@ -52,14 +45,13 @@ export function CreatorModal({ open, onOpenChange }: CreatorModalProps) {
       title: "",
       description: "",
       content: "",
-      category: "",
       tags: "",
       creatorName: "",
-      creatorInitials: "",
       compatibleModels: [],
       estimatedTokens: 0,
       variables: [],
       examples: [],
+      version: "1.0.0",
     },
   });
 
@@ -179,62 +171,19 @@ export function CreatorModal({ open, onOpenChange }: CreatorModalProps) {
               )}
             />
             
-            <div className="grid grid-cols-2 gap-4">
-              <FormField
-                control={form.control}
-                name="category"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>Category</FormLabel>
-                    <Select onValueChange={field.onChange} defaultValue={field.value}>
-                      <FormControl>
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select category" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        {categories.map(category => (
-                          <SelectItem key={category} value={category}>
-                            {category}
-                          </SelectItem>
-                        ))}
-                      </SelectContent>
-                    </Select>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              
-              <div className="grid grid-cols-2 gap-2">
-                <FormField
-                  control={form.control}
-                  name="creatorName"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Your Name</FormLabel>
-                      <FormControl>
-                        <Input placeholder="e.g., John Doe" {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                
-                <FormField
-                  control={form.control}
-                  name="creatorInitials"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Initials</FormLabel>
-                      <FormControl>
-                        <Input placeholder="e.g., JD" maxLength={3} {...field} />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </div>
-            </div>
+            <FormField
+              control={form.control}
+              name="creatorName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Your Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="e.g., John Doe" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             
             <FormField
               control={form.control}
