@@ -114,7 +114,7 @@ export function FilterSidebar({ onFiltersChange, isCollapsed, onToggleCollapse }
           className="flex items-center gap-2 text-muted-foreground hover:text-card-foreground"
         >
           <Filter className="h-4 w-4" />
-          Filter Prompts
+          <span className="font-display-small">Filter Prompts</span>
           {hasActiveFilters && (
             <Badge variant="secondary" className="ml-2 text-xs">
               {selectedTags.length + selectedModels.length + (tokenRange ? 1 : 0)}
@@ -129,7 +129,7 @@ export function FilterSidebar({ onFiltersChange, isCollapsed, onToggleCollapse }
         <div className="p-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
-          <Label className="text-sm font-medium text-card-foreground mb-2 block">Tags</Label>
+          <Label className="text-sm font-display-small text-card-foreground mb-2 block">Tags</Label>
           <Select onValueChange={handleTagChange}>
             <SelectTrigger>
               <SelectValue placeholder="Add tag filter" />
@@ -160,7 +160,7 @@ export function FilterSidebar({ onFiltersChange, isCollapsed, onToggleCollapse }
         </div>
 
         <div>
-          <Label className="text-sm font-medium text-card-foreground mb-2 block">Model Compatibility</Label>
+          <Label className="text-sm font-display-small text-card-foreground mb-2 block">Model Compatibility</Label>
           <Select onValueChange={handleModelChange}>
             <SelectTrigger>
               <SelectValue placeholder="Add model filter" />
@@ -191,7 +191,7 @@ export function FilterSidebar({ onFiltersChange, isCollapsed, onToggleCollapse }
         </div>
 
         <div>
-          <Label className="text-sm font-medium text-card-foreground mb-2 block">Token Range</Label>
+          <Label className="text-sm font-display-small text-card-foreground mb-2 block">Token Range</Label>
           <Select value={tokenRange} onValueChange={handleTokenRangeChange}>
             <SelectTrigger>
               <SelectValue placeholder="Any length" />

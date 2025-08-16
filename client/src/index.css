@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,100..900;1,9..144,100..900&display=swap');
 
 @tailwind base;
 @tailwind components;
@@ -38,8 +39,9 @@
   --sidebar-border: hsl(47 20% 85%);
   --sidebar-ring: hsl(79 60% 60%);
   --font-sans: 'Inter', sans-serif;
-  --font-serif: Georgia, serif;
+  --font-serif: 'Fraunces', serif;
   --font-mono: Menlo, monospace;
+  --font-display: 'Fraunces', serif;
   --radius: 0.75rem;
 }
 
@@ -86,5 +88,45 @@
   body {
     @apply font-sans antialiased bg-background text-foreground;
     font-family: 'Inter', sans-serif;
+  }
+
+  .font-display {
+    font-family: 'Fraunces', serif;
+    font-variation-settings: 'opsz' 72;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+  }
+
+  .font-display-hero {
+    font-family: 'Fraunces', serif;
+    font-variation-settings: 'opsz' 72;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+    line-height: 1.05;
+  }
+
+  .font-display-large {
+    font-family: 'Fraunces', serif;
+    font-variation-settings: 'opsz' 48;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    line-height: 1.1;
+  }
+
+  .font-display-medium {
+    font-family: 'Fraunces', serif;
+    font-variation-settings: 'opsz' 36;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+  }
+
+  .font-display-small {
+    font-family: 'Fraunces', serif;
+    font-variation-settings: 'opsz' 24;
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    line-height: 1.2;
   }
 }

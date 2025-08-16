@@ -111,7 +111,7 @@ export function CreatorModal({ open, onOpenChange }: CreatorModalProps) {
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent className="max-w-2xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
-          <DialogTitle className="text-xl font-bold text-slate-900">Share Your Prompt</DialogTitle>
+          <DialogTitle className="text-xl font-display-large text-slate-900">Share Your Prompt</DialogTitle>
         </DialogHeader>
         
         <Form {...form}>

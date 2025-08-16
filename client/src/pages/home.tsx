@@ -167,7 +167,7 @@ export default function Home() {
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-2">
                 <Dice1 className="text-2xl text-foreground" />
-                <h1 className="text-xl font-bold text-foreground">StumbleUponPrompt</h1>
+                <h1 className="text-xl font-display text-foreground">StumbleUponPrompt</h1>
               </div>
             </div>
             
@@ -180,7 +180,7 @@ export default function Home() {
       {/* Hero Section */}
       <section className="bg-background py-12">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+          <h2 className="text-4xl md:text-5xl font-display-hero text-foreground mb-6">
             Discover Amazing
             <span className="text-primary"> AI Prompts</span>
           </h2>
@@ -225,7 +225,7 @@ export default function Home() {
               />
             ) : (
               <div className="bg-card rounded-xl border border-border p-8 text-center">
-                <h3 className="text-xl font-semibold text-card-foreground mb-4">No prompts found</h3>
+                <h3 className="text-xl font-display-medium text-card-foreground mb-4">No prompts found</h3>
                 <p className="text-muted-foreground mb-6">
                   Try adjusting your filters or click the stumble button to discover a random prompt.
                 </p>

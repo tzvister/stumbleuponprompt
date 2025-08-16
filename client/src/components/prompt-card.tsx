@@ -127,7 +127,7 @@ export function PromptCard({ prompt, onNext, onPrevious, onUse }: PromptCardProp
         <div className="flex justify-between items-start mb-6">
           <div className="flex-1">
             <div className="flex items-center gap-3 mb-2">
-              <h3 className="text-2xl font-bold text-card-foreground">
+              <h3 className="text-2xl font-display-large text-card-foreground">
                 {prompt.title}
               </h3>
               <Button variant="ghost" size="sm" onClick={handleShare} className="text-muted-foreground hover:text-card-foreground">
@@ -157,7 +157,7 @@ export function PromptCard({ prompt, onNext, onPrevious, onUse }: PromptCardProp
         {/* Variable Fields */}
         {promptVariables.length > 0 && (
           <div className="mb-6">
-            <h4 className="font-medium text-card-foreground mb-3">Customize Variables</h4>
+            <h4 className="font-display-small text-card-foreground mb-3">Customize Variables</h4>
             <div className="space-y-3">
               {promptVariables.map(variable => (
                 <div key={variable}>
@@ -210,7 +210,7 @@ export function PromptCard({ prompt, onNext, onPrevious, onUse }: PromptCardProp
         {/* Prompt Preview */}
         <div className="bg-secondary rounded-lg p-6 mb-6">
           <div className="flex items-center justify-between mb-4">
-            <h4 className="font-medium text-card-foreground">Prompt Preview</h4>
+            <h4 className="font-display-small text-card-foreground">Prompt Preview</h4>
             <Button variant="ghost" size="sm" onClick={handleCopyPrompt}>
               <Copy className="w-4 h-4" />
             </Button>
@@ -224,7 +224,7 @@ export function PromptCard({ prompt, onNext, onPrevious, onUse }: PromptCardProp
         <div className="mt-6 pt-6 border-t border-border">
           <div className="flex items-center justify-between">
             <div>
-              <h4 className="font-medium text-card-foreground">Created by</h4>
+              <h4 className="font-display-small text-card-foreground">Created by</h4>
               <div className="flex items-center space-x-2 mt-1">
                 <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
                   <span className="text-primary-foreground text-sm font-medium">
