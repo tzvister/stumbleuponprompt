@@ -4,6 +4,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { X, ChevronDown, ChevronUp, Filter } from "lucide-react";
+import { getTagColor } from "@/lib/tag-colors";
 
 interface FilterSidebarProps {
   onFiltersChange: (filters: {
@@ -104,13 +105,13 @@ export function FilterSidebar({ onFiltersChange, isCollapsed, onToggleCollapse }
   const hasActiveFilters = selectedTags.length > 0 || selectedModels.length > 0 || tokenRange;
 
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-slate-200">
+    <div className="bg-card rounded-xl border border-border">
       {/* Toggle Button - Always Visible */}
-      <div className="flex items-center justify-center p-3 border-b border-slate-100">
+      <div className="flex items-center justify-center p-3 border-b border-border">
         <Button 
           onClick={onToggleCollapse}
           variant="ghost"
-          className="flex items-center gap-2 text-slate-600 hover:text-slate-900"
+          className="flex items-center gap-2 text-muted-foreground hover:text-card-foreground"
         >
           <Filter className="h-4 w-4" />
           Filter Prompts
@@ -128,7 +129,7 @@ export function FilterSidebar({ onFiltersChange, isCollapsed, onToggleCollapse }
         <div className="p-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
-          <Label className="text-sm font-medium text-slate-700 mb-2 block">Tags</Label>
+          <Label className="text-sm font-medium text-card-foreground mb-2 block">Tags</Label>
           <Select onValueChange={handleTagChange}>
             <SelectTrigger>
               <SelectValue placeholder="Add tag filter" />
@@ -144,22 +145,22 @@ export function FilterSidebar({ onFiltersChange, isCollapsed, onToggleCollapse }
           {selectedTags.length > 0 && (
             <div className="flex flex-wrap gap-1 mt-2">
               {selectedTags.map(tag => (
-                <Badge key={tag} variant="secondary" className="text-xs">
+                <span key={tag} className={`px-2 py-1 rounded-full text-xs font-medium ${getTagColor(tag)} flex items-center gap-1`}>
                   {tag}
                   <button
                     onClick={() => removeTagFilter(tag)}
-                    className="ml-1 hover:bg-slate-300 rounded-full"
+                    className="hover:bg-black/10 rounded-full p-0.5"
                   >
                     <X className="w-3 h-3" />
                   </button>
-                </Badge>
+                </span>
               ))}
             </div>
           )}
         </div>
 
         <div>
-          <Label className="text-sm font-medium text-slate-700 mb-2 block">Model Compatibility</Label>
+          <Label className="text-sm font-medium text-card-foreground mb-2 block">Model Compatibility</Label>
           <Select onValueChange={handleModelChange}>
             <SelectTrigger>
               <SelectValue placeholder="Add model filter" />
@@ -190,7 +191,7 @@ export function FilterSidebar({ onFiltersChange, isCollapsed, onToggleCollapse }
         </div>
 
         <div>
-          <Label className="text-sm font-medium text-slate-700 mb-2 block">Token Range</Label>
+          <Label className="text-sm font-medium text-card-foreground mb-2 block">Token Range</Label>
           <Select value={tokenRange} onValueChange={handleTokenRangeChange}>
             <SelectTrigger>
               <SelectValue placeholder="Any length" />

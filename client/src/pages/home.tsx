@@ -149,25 +149,25 @@ export default function Home() {
 
   if (isLoading) {
     return (
-      <div className="min-h-screen bg-slate-50 flex items-center justify-center">
+      <div className="min-h-screen bg-background flex items-center justify-center">
         <div className="text-center">
           <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-primary mx-auto mb-4"></div>
-          <p className="text-slate-600">Loading prompts...</p>
+          <p className="text-foreground/60">Loading prompts...</p>
         </div>
       </div>
     );
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-background">
       {/* Header */}
-      <header className="bg-white shadow-sm border-b border-slate-200">
+      <header className="bg-card border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center space-x-4">
               <div className="flex items-center space-x-2">
-                <Dice1 className="text-2xl text-primary" />
-                <h1 className="text-xl font-bold text-slate-900">StumbleUponPrompt</h1>
+                <Dice1 className="text-2xl text-foreground" />
+                <h1 className="text-xl font-bold text-foreground">StumbleUponPrompt</h1>
               </div>
             </div>
             
@@ -178,24 +178,27 @@ export default function Home() {
       </header>
 
       {/* Hero Section */}
-      <section className="bg-gradient-to-br from-slate-50 to-blue-50 py-12">
+      <section className="bg-background py-12">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold text-slate-900 mb-6">
-            Discover Amazing
-            <span className="text-primary"> AI Prompts</span>
+          <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
+            Discover interesting
+            <span className="block">AI prompts</span>
           </h2>
-          <p className="text-xl text-slate-600 mb-8 max-w-2xl mx-auto">
-            A dead-simple way to stumble through high-quality prompts. Preview them, customize them, and try them instantly in your favorite AI model.
-          </p>
           
+          {/* Stumble Button */}
+          <div className="mb-8">
+            <Button onClick={handleStumble} className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 text-lg font-semibold rounded-full">
+              STUMBLE
+            </Button>
+          </div>
 
-          <div className="flex flex-wrap justify-center items-center gap-4 text-sm text-slate-500">
+          <div className="flex flex-wrap justify-center items-center gap-4 text-sm text-muted-foreground">
             <span>Try instantly in:</span>
             <div className="flex items-center space-x-3">
-              <span className="bg-white px-3 py-1 rounded-full shadow-sm border">ChatGPT</span>
-              <span className="bg-white px-3 py-1 rounded-full shadow-sm border">Claude</span>
-              <span className="bg-white px-3 py-1 rounded-full shadow-sm border">Gemini</span>
-              <span className="bg-white px-3 py-1 rounded-full shadow-sm border">OpenRouter</span>
+              <span className="bg-green-100 text-green-800 px-3 py-1 rounded-full text-xs font-medium">ChatGPT</span>
+              <span className="bg-orange-100 text-orange-800 px-3 py-1 rounded-full text-xs font-medium">Claude</span>
+              <span className="bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-xs font-medium">Gemini</span>
+              <span className="bg-purple-100 text-purple-800 px-3 py-1 rounded-full text-xs font-medium">OpenRouter</span>
             </div>
           </div>
         </div>
@@ -223,12 +226,12 @@ export default function Home() {
                 onUse={handleUsePrompt}
               />
             ) : (
-              <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-8 text-center">
-                <h3 className="text-xl font-semibold text-slate-900 mb-4">No prompts found</h3>
-                <p className="text-slate-600 mb-6">
+              <div className="bg-card rounded-xl border border-border p-8 text-center">
+                <h3 className="text-xl font-semibold text-card-foreground mb-4">No prompts found</h3>
+                <p className="text-muted-foreground mb-6">
                   Try adjusting your filters or click the stumble button to discover a random prompt.
                 </p>
-                <Button onClick={handleStumble} className="bg-primary hover:bg-blue-700">
+                <Button onClick={handleStumble} className="bg-primary hover:bg-primary/90 text-primary-foreground">
                   <Dice1 className="mr-2 h-4 w-4" />
                   Stumble a Prompt
                 </Button>
