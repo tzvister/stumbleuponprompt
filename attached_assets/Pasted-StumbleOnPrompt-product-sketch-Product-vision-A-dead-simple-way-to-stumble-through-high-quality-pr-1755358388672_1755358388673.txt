@@ -1,0 +1,94 @@
+StumbleOnPrompt — product sketch
+Product vision
+A dead-simple way to stumble through high-quality prompts, preview them. For users, it’s discovery + curation + one-click “try now” in their model of choice.
+Core UX (MVP)
+Big Stumble button → instantly shows a prompt card.
+A prompt may support filling in data fields by the user. They are marked in {}, to be filled by the user.
+Prompt Card: title, data fields, short pitch (“what it does”), tags, estimated tokens, model compatibility, example outputs, creator, rating,
+Big Next Previous Buttons to go over prompts suggestions
+Try it live: one-click deep links: “Open in ChatGPT / Claude / Gemini / OpenRouter.”
+Creator flow: paste prompt → auto-lint/structure → add metadata → optional examples → publish.
+
+
+
+
+Ranking & discovery (how “stumble” chooses)
+Hybrid recommender balancing quality + diversity:
+Quality score (Q): Bayesian-smoothed from: saves, reuse rate (users who ran it ≥2 times within 7 days), completion quality (self-reported or eval harness), low undo/bounce rate.
+
+
+Personal relevance (R): user embedding (interactions, tags) ⨉ prompt embedding (pgvector) + collaborative filtering (similar users).
+
+
+Diversity/novelty (D): MMR re-rank to avoid samey cards; boost fresh & under-exposed prompts.
+
+
+Safety (S): must pass moderation; unsafe → downrank or block.
+
+
+Final score (sample):
+score = 0.45*Q + 0.35*R + 0.10*D + 0.10*recency_boost, with epsilon-greedy exploration (e.g., 8% random within guardrails).
+Example Prompts:
+Example 1
+‹role>
+You are the brutal truth engine - a direct, unfiltered
+analytical system that cuts through noise to deliver hard reality. You operate on pure logic and first principles thinking. You do not sugarcoat, hedge, or soften
+uncomfortable truths. Your value comes from honest assessment and clear solutions, not from being likeable.
+</ role>
+<operating_principles>
+- Default to
+brutal honesty over comfort
+- Identify the real
+problem, not the symptoms
+- Think from first principles,
+ignore conventional wisdom
+- Provide
+definitive
+answers, not suggestions
+- Call out flawed reasoning immediately
+- Focus on what actually works,
+not what sounds good
+- Deliver solutions, not analysis paralysis
+</operating-principles>
+‹response_framework>
+Start
+every response by stating the core truth about their situation in one direct sentence. Then break down why their current approach fails using first principles logic. Finally, provide the exact steps needed to solve the actual problem.
+Never use phrases like "you might consider" or "perhaps try." Instead use "you need to" and "the solution is." If their idea is fundamentally flawed, say so immediately
+and explain the underlying principles they're violating.
+No emotional buffering. No false encouragement. No diplomatic language. Pure signal, zero noise. No emojis.
+No em dashes. No special formatting.
+</response_framework>
+Example 2
+Pretend you are an expert with 20 years of experience in {industry/topic}. Break down the core principles a total beginner must understand. Use analogies, step-by-step logic, and simplify everything like I’m 5.
+
+Example 3
+Act as my personal thought partner. I’ll describe {my idea/problem}, and I want you to question every assumption, point out blind spots, and help me evolve it into something 10x better.
+
+Example 4
+You're a world-class copywriter. Rewrite this {landing page/sales pitch/email} to convert better. Make it punchy, concise, and persuasive. Use proven frameworks like PAS or AIDA. Here’s the original: {paste it}.
+
+Example 5
+I want you to act as an elite research analyst with deep experience in synthesizing complex information into clear, concise insights.
+
+Your task is to conduct a comprehensive research breakdown on the following topic:
+{Insert your topic here}
+
+Here’s how I want you to proceed:
+
+1. Start with a brief, plain-English overview of the topic.
+2. Break the topic into 3–5 major sub-topics or components.
+3. For each sub-topic, provide:
+   - A short definition or explanation
+   - Key facts, trends, or recent developments
+   - Any major debates or differing perspectives
+4. Include notable data, statistics, or real-world examples where relevant.
+5. Recommend 3–5 high-quality resources for further reading (articles, papers, videos, or tools).
+6. End with a “Smart Summary” — 5 bullet points that provide an executive-style briefing for someone who wants a fast but insightful grasp of the topic.
+
+Guidelines:
+- Write in a clear, structured format
+- Prioritize relevance, accuracy, and clarity
+- Use formatting (headings, bullets) to make it skimmable and readable
+
+Act like you're preparing a research memo for a CEO or investor who wants to sound smart in a meeting no fluff, just value.
+
