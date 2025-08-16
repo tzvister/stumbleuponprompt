@@ -112,9 +112,7 @@ export function PromptCard({ prompt, onNext, onPrevious, onUse }: PromptCardProp
           </Button>
           
           <div className="flex items-center space-x-4">
-            <Button variant="ghost" size="sm" onClick={handleShare}>
-              <Share className="w-4 h-4" />
-            </Button>
+            {/* Share button moved to title area */}
           </div>
           
           <Button variant="ghost" onClick={onNext}>
@@ -127,9 +125,14 @@ export function PromptCard({ prompt, onNext, onPrevious, onUse }: PromptCardProp
       <div className="p-8">
         <div className="flex justify-between items-start mb-6">
           <div className="flex-1">
-            <h3 className="text-2xl font-bold text-slate-900 mb-2">
-              {prompt.title}
-            </h3>
+            <div className="flex items-center gap-3 mb-2">
+              <h3 className="text-2xl font-bold text-slate-900">
+                {prompt.title}
+              </h3>
+              <Button variant="ghost" size="sm" onClick={handleShare} className="text-slate-400 hover:text-slate-600">
+                <Share className="w-4 h-4" />
+              </Button>
+            </div>
             <p className="text-slate-600 mb-4">
               {prompt.description}
             </p>
