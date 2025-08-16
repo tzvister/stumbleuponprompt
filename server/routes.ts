@@ -5,6 +5,16 @@ import { insertPromptSchema } from "@shared/schema";
 import { z } from "zod";
 
 export async function registerRoutes(app: Express): Promise<Server> {
+  // Health check endpoint for deployment monitoring
+  app.get("/health", (req, res) => {
+    res.status(200).json({ 
+      status: "healthy", 
+      timestamp: new Date().toISOString(),
+      uptime: process.uptime(),
+      version: process.env.npm_package_version || "unknown"
+    });
+  });
+
   // Get all prompts
   app.get("/api/prompts", async (req, res) => {
     try {
