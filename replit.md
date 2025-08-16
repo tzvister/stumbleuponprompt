@@ -18,6 +18,8 @@ Preferred communication style: Simple, everyday language.
 - Made Previous/Next navigation sticky above prompt title
 - Redesigned filters to be horizontal and more compact
 - Made layout consistent between mobile and desktop
+- Moved prompt data from hardcoded objects to static JSON file (`data/prompts.json`)
+- Updated storage system to read from JSON file with error handling
 
 # System Architecture
 
