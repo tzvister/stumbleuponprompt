@@ -1,9 +1,9 @@
-export function extractVariables(promptContent: string): string[] {
+export function extractVariables(prompt: string): string[] {
   const variableRegex = /\{([^}]+)\}/g;
   const variables: string[] = [];
   let match;
   
-  while ((match = variableRegex.exec(promptContent)) !== null) {
+  while ((match = variableRegex.exec(prompt)) !== null) {
     const variable = match[1];
     if (!variables.includes(variable)) {
       variables.push(variable);
@@ -20,24 +20,24 @@ export function formatVariableName(variable: string): string {
     .join(' ');
 }
 
-export function validatePromptContent(content: string): { isValid: boolean; errors: string[] } {
+export function validatePromptContent(prompt: string): { isValid: boolean; errors: string[] } {
   const errors: string[] = [];
   
-  if (!content.trim()) {
+  if (!prompt.trim()) {
     errors.push("Prompt content cannot be empty");
   }
   
-  if (content.length < 20) {
+  if (prompt.length < 20) {
     errors.push("Prompt content should be at least 20 characters long");
   }
   
-  if (content.length > 5000) {
+  if (prompt.length > 5000) {
     errors.push("Prompt content should be less than 5000 characters");
   }
   
   // Check for unmatched brackets
-  const openBrackets = (content.match(/\{/g) || []).length;
-  const closeBrackets = (content.match(/\}/g) || []).length;
+  const openBrackets = (prompt.match(/\{/g) || []).length;
+  const closeBrackets = (prompt.match(/\}/g) || []).length;
   
   if (openBrackets !== closeBrackets) {
     errors.push("Mismatched curly brackets in variable definitions");

@@ -160,7 +160,7 @@ export function FilterSidebar({ onFiltersChange, isCollapsed, onToggleCollapse }
         </div>
 
         <div>
-          <Label className="text-sm font-display-small text-card-foreground mb-2 block">Model Compatibility</Label>
+          <Label className="text-sm font-display-small text-card-foreground mb-2 block">Tested On</Label>
           <Select onValueChange={handleModelChange}>
             <SelectTrigger>
               <SelectValue placeholder="Add model filter" />

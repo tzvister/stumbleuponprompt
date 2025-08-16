@@ -37,8 +37,7 @@ export class MemStorage implements IStorage {
           id,
           tags: Array.isArray(prompt.tags) ? prompt.tags as string[] : [],
           variables: Array.isArray(prompt.variables) ? prompt.variables as string[] : [],
-          compatibleModels: Array.isArray(prompt.compatibleModels) ? prompt.compatibleModels as string[] : [],
-          examples: Array.isArray(prompt.examples) ? prompt.examples as Array<{input: string, output: string, model: string}> : [],
+          testedOn: Array.isArray(prompt.testedOn) ? prompt.testedOn as string[] : [],
           estimatedTokens: prompt.estimatedTokens || 0,
           version: prompt.version || '1.0.0',
           useCount: Math.floor(Math.random() * 2000) + 100,
@@ -74,6 +73,7 @@ export class MemStorage implements IStorage {
     return Array.from(this.prompts.values()).filter(p =>
       p.title.toLowerCase().includes(lowerQuery) ||
       p.description.toLowerCase().includes(lowerQuery) ||
+      p.prompt.toLowerCase().includes(lowerQuery) ||
       p.tags.some(tag => tag.toLowerCase().includes(lowerQuery))
     );
   }
@@ -85,8 +85,7 @@ export class MemStorage implements IStorage {
       id,
       tags: Array.isArray(insertPrompt.tags) ? insertPrompt.tags as string[] : [],
       variables: Array.isArray(insertPrompt.variables) ? insertPrompt.variables as string[] : [],
-      compatibleModels: Array.isArray(insertPrompt.compatibleModels) ? insertPrompt.compatibleModels as string[] : [],
-      examples: Array.isArray(insertPrompt.examples) ? insertPrompt.examples as Array<{input: string, output: string, model: string}> : [],
+      testedOn: Array.isArray(insertPrompt.testedOn) ? insertPrompt.testedOn as string[] : [],
       estimatedTokens: insertPrompt.estimatedTokens || 0,
       version: insertPrompt.version || '1.0.0',
       useCount: 0,

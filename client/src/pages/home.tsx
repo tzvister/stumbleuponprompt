@@ -77,7 +77,7 @@ export default function Home() {
     // Apply model filter
     if (filters.models.length > 0) {
       filtered = filtered.filter(p => 
-        filters.models.some(model => p.compatibleModels.includes(model))
+        filters.models.some(model => p.testedOn.includes(model))
       );
     }
 

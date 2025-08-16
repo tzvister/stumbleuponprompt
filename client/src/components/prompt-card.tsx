@@ -25,14 +25,14 @@ interface PromptCardProps {
 export function PromptCard({ prompt, onNext, onPrevious, onUse }: PromptCardProps) {
   const [variables, setVariables] = useState<Record<string, string>>({});
 
-  const promptVariables = extractVariables(prompt.content);
+  const promptVariables = extractVariables(prompt.prompt);
 
   const handleVariableChange = (variable: string, value: string) => {
     setVariables(prev => ({ ...prev, [variable]: value }));
   };
 
   const handleCopyPrompt = async () => {
-    let finalPrompt = prompt.content;
+    let finalPrompt = prompt.prompt;
     Object.entries(variables).forEach(([key, value]) => {
       const regex = new RegExp(`\\{${key}\\}`, 'g');
       finalPrompt = finalPrompt.replace(regex, value);
@@ -59,16 +59,16 @@ export function PromptCard({ prompt, onNext, onPrevious, onUse }: PromptCardProp
     let link = '';
     switch (platform) {
       case 'chatgpt':
-        link = generateChatGPTLink({ prompt: prompt.content, variables });
+        link = generateChatGPTLink({ prompt: prompt.prompt, variables });
         break;
       case 'claude':
-        link = generateClaudeLink({ prompt: prompt.content, variables });
+        link = generateClaudeLink({ prompt: prompt.prompt, variables });
         break;
       case 'gemini':
-        link = generateGeminiLink({ prompt: prompt.content, variables });
+        link = generateGeminiLink({ prompt: prompt.prompt, variables });
         break;
       case 'openrouter':
-        link = generateOpenRouterLink({ prompt: prompt.content, variables });
+        link = generateOpenRouterLink({ prompt: prompt.prompt, variables });
         break;
     }
 
@@ -216,7 +216,7 @@ export function PromptCard({ prompt, onNext, onPrevious, onUse }: PromptCardProp
             </Button>
           </div>
           <div className="bg-card border border-border rounded-md p-4 font-mono text-sm whitespace-pre-wrap">
-            {prompt.content}
+            {prompt.prompt}
           </div>
         </div>
 

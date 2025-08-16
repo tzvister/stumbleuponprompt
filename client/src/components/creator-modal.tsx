@@ -18,7 +18,7 @@ import { z } from "zod";
 
 const formSchema = insertPromptSchema.extend({
   tags: z.string(),
-  compatibleModels: z.array(z.string()).min(1, "Select at least one compatible model"),
+  testedOn: z.array(z.string()).min(1, "Select at least one tested model"),
 });
 
 type FormData = z.infer<typeof formSchema>;
@@ -44,13 +44,12 @@ export function CreatorModal({ open, onOpenChange }: CreatorModalProps) {
     defaultValues: {
       title: "",
       description: "",
-      content: "",
+      prompt: "",
       tags: "",
       creatorName: "",
-      compatibleModels: [],
+      testedOn: [],
       estimatedTokens: 0,
       variables: [],
-      examples: [],
       version: "1.0.0",
     },
   });
@@ -61,7 +60,7 @@ export function CreatorModal({ open, onOpenChange }: CreatorModalProps) {
       const promptData = {
         ...rest,
         tags: tags.split(',').map(tag => tag.trim()).filter(Boolean),
-        content,
+        prompt: content,
         variables: extractVariables(content),
         estimatedTokens: estimateTokens(content),
       };
@@ -104,7 +103,7 @@ export function CreatorModal({ open, onOpenChange }: CreatorModalProps) {
 
   const handleContentChange = (value: string) => {
     setContent(value);
-    form.setValue("content", value);
+    form.setValue("prompt", value);
   };
 
   return (
@@ -204,16 +203,16 @@ export function CreatorModal({ open, onOpenChange }: CreatorModalProps) {
             
             <FormField
               control={form.control}
-              name="compatibleModels"
+              name="testedOn"
               render={() => (
                 <FormItem>
-                  <FormLabel>Compatible Models</FormLabel>
+                  <FormLabel>Tested On</FormLabel>
                   <div className="space-y-2">
                     {models.map(model => (
                       <FormField
                         key={model}
                         control={form.control}
-                        name="compatibleModels"
+                        name="testedOn"
                         render={({ field }) => {
                           return (
                             <FormItem

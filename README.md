@@ -14,20 +14,13 @@ Each prompt object in the array must follow this exact structure:
 {
   "title": "String - Required",
   "description": "String - Required",
-  "content": "String - Required", 
+  "prompt": "String - Required", 
   "tags": ["Array of strings - Required"],
   "estimatedTokens": 0,
   "creatorName": "String - Required",
   "variables": ["Array of strings - Required"],
-  "compatibleModels": ["Array of strings - Required"],
-  "version": "String - Required (semver format)",
-  "examples": [
-    {
-      "input": "String - Optional",
-      "output": "String - Optional", 
-      "model": "String - Optional"
-    }
-  ]
+  "testedOn": ["Array of strings - Required"],
+  "version": "String - Required (semver format)"
 }
 ```
 
@@ -37,17 +30,14 @@ Each prompt object in the array must follow this exact structure:
 
 - **title**: Clear, descriptive title (max 100 characters recommended)
 - **description**: Brief explanation of what the prompt does (max 300 characters recommended)
-- **content**: The actual prompt text with variables in `{variable_name}` format
+- **prompt**: The actual prompt text with variables in `{variable_name}` format
 - **tags**: Array of relevant category tags for filtering
 - **estimatedTokens**: Approximate token count for the prompt (integer)
 - **creatorName**: Name or username of the prompt creator
 - **variables**: Array of variable names that appear in the content (extracted from `{variable}` syntax)
-- **compatibleModels**: Array of AI models this prompt works well with
+- **testedOn**: Array of AI models this prompt has been tested with
 - **version**: Semantic version string (e.g., "1.0.0")
 
-#### Optional Fields
-
-- **examples**: Array of example inputs/outputs demonstrating the prompt's usage
 
 ### Tag Categories
 
@@ -81,7 +71,7 @@ Use these standardized tag categories for consistency:
 **Technical:**
 - "Technical & Code"
 
-### Compatible Models
+### Tested Models
 
 Use these standard model names:
 - "GPT-4"
@@ -101,14 +91,13 @@ Variables in prompt content should use curly brace syntax:
 {
   "title": "Expert Teacher Prompt",
   "description": "Break down complex topics like you're explaining to a 5-year-old with 20 years of expertise.",
-  "content": "Pretend you are an expert with 20 years of experience in {industry/topic}. Break down the core principles a total beginner must understand. Use analogies, step-by-step logic, and simplify everything like I'm 5.\n\nTopic to explain: {topic}",
+  "prompt": "Pretend you are an expert with 20 years of experience in {industry/topic}. Break down the core principles a total beginner must understand. Use analogies, step-by-step logic, and simplify everything like I'm 5.\n\nTopic to explain: {topic}",
   "tags": ["Education", "Learning", "Simplification", "Writing & Content"],
   "estimatedTokens": 120,
   "creatorName": "Sarah Chen",
   "variables": ["{industry/topic}", "{topic}"],
-  "compatibleModels": ["GPT-4", "Claude 3", "Gemini Pro"],
-  "version": "1.0.0",
-  "examples": []
+  "testedOn": ["GPT-4", "Claude 3", "Gemini Pro"],
+  "version": "1.0.0"
 }
 ```
 
