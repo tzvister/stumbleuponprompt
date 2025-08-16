@@ -154,10 +154,10 @@ Act like you're preparing a research memo for a CEO or investor who wants to sou
       const fullPrompt: Prompt = {
         ...prompt,
         id,
-        tags: prompt.tags || [],
-        variables: prompt.variables || [],
-        compatibleModels: prompt.compatibleModels || [],
-        examples: prompt.examples || [],
+        tags: Array.isArray(prompt.tags) ? prompt.tags : [],
+        variables: Array.isArray(prompt.variables) ? prompt.variables : [],
+        compatibleModels: Array.isArray(prompt.compatibleModels) ? prompt.compatibleModels : [],
+        examples: Array.isArray(prompt.examples) ? prompt.examples : [],
         estimatedTokens: prompt.estimatedTokens || 0,
         useCount: Math.floor(Math.random() * 2000) + 100,
         createdAt: new Date()
@@ -199,10 +199,10 @@ Act like you're preparing a research memo for a CEO or investor who wants to sou
     const prompt: Prompt = {
       ...insertPrompt,
       id,
-      tags: insertPrompt.tags || [],
-      variables: insertPrompt.variables || [],
-      compatibleModels: insertPrompt.compatibleModels || [],
-      examples: insertPrompt.examples || [],
+      tags: Array.isArray(insertPrompt.tags) ? insertPrompt.tags : [],
+      variables: Array.isArray(insertPrompt.variables) ? insertPrompt.variables : [],
+      compatibleModels: Array.isArray(insertPrompt.compatibleModels) ? insertPrompt.compatibleModels : [],
+      examples: Array.isArray(insertPrompt.examples) ? insertPrompt.examples : [],
       estimatedTokens: insertPrompt.estimatedTokens || 0,
       useCount: 0,
       createdAt: new Date()

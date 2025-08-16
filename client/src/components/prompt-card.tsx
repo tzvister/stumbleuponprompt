@@ -128,17 +128,23 @@ export function PromptCard({ prompt, onNext, onPrevious, onUse }: PromptCardProp
         </div>
       </div>
 
-      {/* Prompt Preview */}
-      <div className="bg-slate-50 rounded-lg p-6 mb-6">
-        <div className="flex items-center justify-between mb-4">
-          <h4 className="font-medium text-slate-900">Prompt Preview</h4>
-          <Button variant="ghost" size="sm" onClick={handleCopyPrompt}>
-            <Copy className="w-4 h-4" />
+      {/* Navigation */}
+      <div className="flex justify-between items-center mb-6">
+        <Button variant="ghost" onClick={onPrevious}>
+          <ChevronLeft className="w-4 h-4 mr-2" />
+          Previous
+        </Button>
+        
+        <div className="flex items-center space-x-4">
+          <Button variant="ghost" size="sm" onClick={handleShare}>
+            <Share className="w-4 h-4" />
           </Button>
         </div>
-        <div className="bg-white border border-slate-200 rounded-md p-4 font-mono text-sm whitespace-pre-wrap">
-          {prompt.content}
-        </div>
+        
+        <Button variant="ghost" onClick={onNext}>
+          Next
+          <ChevronRight className="w-4 h-4 ml-2" />
+        </Button>
       </div>
 
       {/* Variable Fields */}
@@ -194,24 +200,19 @@ export function PromptCard({ prompt, onNext, onPrevious, onUse }: PromptCardProp
         </Button>
       </div>
 
-      {/* Navigation */}
-      <div className="flex justify-between items-center pt-6 border-t border-slate-200">
-        <Button variant="ghost" onClick={onPrevious}>
-          <ChevronLeft className="w-4 h-4 mr-2" />
-          Previous
-        </Button>
-        
-        <div className="flex items-center space-x-4">
-          <Button variant="ghost" size="sm" onClick={handleShare}>
-            <Share className="w-4 h-4" />
+      {/* Prompt Preview */}
+      <div className="bg-slate-50 rounded-lg p-6 mb-6">
+        <div className="flex items-center justify-between mb-4">
+          <h4 className="font-medium text-slate-900">Prompt Preview</h4>
+          <Button variant="ghost" size="sm" onClick={handleCopyPrompt}>
+            <Copy className="w-4 h-4" />
           </Button>
         </div>
-        
-        <Button variant="ghost" onClick={onNext}>
-          Next
-          <ChevronRight className="w-4 h-4 ml-2" />
-        </Button>
+        <div className="bg-white border border-slate-200 rounded-md p-4 font-mono text-sm whitespace-pre-wrap">
+          {prompt.content}
+        </div>
       </div>
+
 
       {/* Prompt Meta */}
       <div className="mt-6 pt-6 border-t border-slate-200">

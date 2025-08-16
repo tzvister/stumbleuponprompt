@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Badge } from "@/components/ui/badge";
+import { X } from "lucide-react";
 
 interface FilterSidebarProps {
   onFiltersChange: (filters: {
@@ -30,11 +31,32 @@ export function FilterSidebar({ onFiltersChange }: FilterSidebarProps) {
   const [selectedModels, setSelectedModels] = useState<string[]>([]);
   const [tokenRange, setTokenRange] = useState<string>("");
 
-  const handleCategoryChange = (category: string, checked: boolean) => {
-    const newCategories = checked 
-      ? [...selectedCategories, category]
-      : selectedCategories.filter(c => c !== category);
-    
+  const handleCategoryChange = (value: string) => {
+    if (value && !selectedCategories.includes(value)) {
+      const newCategories = [...selectedCategories, value];
+      setSelectedCategories(newCategories);
+      onFiltersChange({
+        categories: newCategories,
+        models: selectedModels,
+        tokenRange
+      });
+    }
+  };
+
+  const handleModelChange = (value: string) => {
+    if (value && !selectedModels.includes(value)) {
+      const newModels = [...selectedModels, value];
+      setSelectedModels(newModels);
+      onFiltersChange({
+        categories: selectedCategories,
+        models: newModels,
+        tokenRange
+      });
+    }
+  };
+
+  const removeCategoryFilter = (category: string) => {
+    const newCategories = selectedCategories.filter(c => c !== category);
     setSelectedCategories(newCategories);
     onFiltersChange({
       categories: newCategories,
@@ -43,11 +65,8 @@ export function FilterSidebar({ onFiltersChange }: FilterSidebarProps) {
     });
   };
 
-  const handleModelChange = (model: string, checked: boolean) => {
-    const newModels = checked 
-      ? [...selectedModels, model]
-      : selectedModels.filter(m => m !== model);
-    
+  const removeModelFilter = (model: string) => {
+    const newModels = selectedModels.filter(m => m !== model);
     setSelectedModels(newModels);
     onFiltersChange({
       categories: selectedCategories,
@@ -72,44 +91,64 @@ export function FilterSidebar({ onFiltersChange }: FilterSidebarProps) {
       <div className="space-y-4">
         <div>
           <Label className="text-sm font-medium text-slate-700 mb-2 block">Categories</Label>
-          <div className="space-y-2">
-            {categories.map(category => (
-              <div key={category} className="flex items-center space-x-2">
-                <Checkbox 
-                  id={category}
-                  checked={selectedCategories.includes(category)}
-                  onCheckedChange={(checked) => handleCategoryChange(category, checked as boolean)}
-                />
-                <Label 
-                  htmlFor={category}
-                  className="text-sm text-slate-600 cursor-pointer"
-                >
+          <Select onValueChange={handleCategoryChange}>
+            <SelectTrigger>
+              <SelectValue placeholder="Add category filter" />
+            </SelectTrigger>
+            <SelectContent>
+              {categories.filter(cat => !selectedCategories.includes(cat)).map(category => (
+                <SelectItem key={category} value={category}>
                   {category}
-                </Label>
-              </div>
-            ))}
-          </div>
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          {selectedCategories.length > 0 && (
+            <div className="flex flex-wrap gap-1 mt-2">
+              {selectedCategories.map(category => (
+                <Badge key={category} variant="secondary" className="text-xs">
+                  {category}
+                  <button
+                    onClick={() => removeCategoryFilter(category)}
+                    className="ml-1 hover:bg-slate-300 rounded-full"
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                </Badge>
+              ))}
+            </div>
+          )}
         </div>
 
         <div>
           <Label className="text-sm font-medium text-slate-700 mb-2 block">Model Compatibility</Label>
-          <div className="space-y-2">
-            {models.map(model => (
-              <div key={model} className="flex items-center space-x-2">
-                <Checkbox 
-                  id={model}
-                  checked={selectedModels.includes(model)}
-                  onCheckedChange={(checked) => handleModelChange(model, checked as boolean)}
-                />
-                <Label 
-                  htmlFor={model}
-                  className="text-sm text-slate-600 cursor-pointer"
-                >
+          <Select onValueChange={handleModelChange}>
+            <SelectTrigger>
+              <SelectValue placeholder="Add model filter" />
+            </SelectTrigger>
+            <SelectContent>
+              {models.filter(model => !selectedModels.includes(model)).map(model => (
+                <SelectItem key={model} value={model}>
                   {model}
-                </Label>
-              </div>
-            ))}
-          </div>
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+          {selectedModels.length > 0 && (
+            <div className="flex flex-wrap gap-1 mt-2">
+              {selectedModels.map(model => (
+                <Badge key={model} variant="secondary" className="text-xs">
+                  {model}
+                  <button
+                    onClick={() => removeModelFilter(model)}
+                    className="ml-1 hover:bg-slate-300 rounded-full"
+                  >
+                    <X className="w-3 h-3" />
+                  </button>
+                </Badge>
+              ))}
+            </div>
+          )}
         </div>
 
         <div>
