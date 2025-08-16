@@ -92,7 +92,7 @@ export function FilterSidebar({ onFiltersChange, isCollapsed, onToggleCollapse }
   return (
     <div className="bg-white rounded-xl shadow-sm border border-slate-200">
       {/* Toggle Button - Always Visible */}
-      <div className="flex items-center justify-center p-4 border-b border-slate-100">
+      <div className="flex items-center justify-center p-3 border-b border-slate-100">
         <Button 
           onClick={onToggleCollapse}
           variant="ghost"
@@ -111,7 +111,7 @@ export function FilterSidebar({ onFiltersChange, isCollapsed, onToggleCollapse }
       
       {/* Collapsible Filter Content */}
       {!isCollapsed && (
-        <div className="p-6">
+        <div className="p-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
           <Label className="text-sm font-medium text-slate-700 mb-2 block">Categories</Label>
