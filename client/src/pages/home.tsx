@@ -21,6 +21,7 @@ export default function Home() {
   });
   const [searchQuery, setSearchQuery] = useState("");
   const [isCreatorModalOpen, setIsCreatorModalOpen] = useState(false);
+  const [isFiltersCollapsed, setIsFiltersCollapsed] = useState(true); // Collapsed by default
   const queryClient = useQueryClient();
 
   // Fetch all prompts
@@ -216,7 +217,11 @@ export default function Home() {
         <div className="space-y-6">
           {/* Filter Sidebar */}
           <div className="w-full">
-            <FilterSidebar onFiltersChange={setFilters} />
+            <FilterSidebar 
+              onFiltersChange={setFilters} 
+              isCollapsed={isFiltersCollapsed}
+              onToggleCollapse={() => setIsFiltersCollapsed(!isFiltersCollapsed)}
+            />
           </div>
 
           {/* Prompt Display */}

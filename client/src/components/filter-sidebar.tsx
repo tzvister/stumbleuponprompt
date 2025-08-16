@@ -2,7 +2,8 @@ import { useState } from "react";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
-import { X } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { X, ChevronDown, ChevronUp, Filter } from "lucide-react";
 
 interface FilterSidebarProps {
   onFiltersChange: (filters: {
@@ -10,6 +11,8 @@ interface FilterSidebarProps {
     models: string[];
     tokenRange: string;
   }) => void;
+  isCollapsed: boolean;
+  onToggleCollapse: () => void;
 }
 
 const categories = [
@@ -26,7 +29,7 @@ const models = [
   "Gemini Pro"
 ];
 
-export function FilterSidebar({ onFiltersChange }: FilterSidebarProps) {
+export function FilterSidebar({ onFiltersChange, isCollapsed, onToggleCollapse }: FilterSidebarProps) {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [selectedModels, setSelectedModels] = useState<string[]>([]);
   const [tokenRange, setTokenRange] = useState<string>("");
@@ -84,11 +87,32 @@ export function FilterSidebar({ onFiltersChange }: FilterSidebarProps) {
     });
   };
 
+  const hasActiveFilters = selectedCategories.length > 0 || selectedModels.length > 0 || tokenRange;
+
   return (
-    <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
-      <h3 className="font-semibold text-slate-900 mb-4">Filter Prompts</h3>
+    <div className="bg-white rounded-xl shadow-sm border border-slate-200">
+      {/* Toggle Button - Always Visible */}
+      <div className="flex items-center justify-center p-4 border-b border-slate-100">
+        <Button 
+          onClick={onToggleCollapse}
+          variant="ghost"
+          className="flex items-center gap-2 text-slate-600 hover:text-slate-900"
+        >
+          <Filter className="h-4 w-4" />
+          Filter Prompts
+          {hasActiveFilters && (
+            <Badge variant="secondary" className="ml-2 text-xs">
+              {selectedCategories.length + selectedModels.length + (tokenRange ? 1 : 0)}
+            </Badge>
+          )}
+          {isCollapsed ? <ChevronDown className="h-4 w-4" /> : <ChevronUp className="h-4 w-4" />}
+        </Button>
+      </div>
       
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+      {/* Collapsible Filter Content */}
+      {!isCollapsed && (
+        <div className="p-6">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
           <Label className="text-sm font-medium text-slate-700 mb-2 block">Categories</Label>
           <Select onValueChange={handleCategoryChange}>
@@ -165,7 +189,9 @@ export function FilterSidebar({ onFiltersChange }: FilterSidebarProps) {
             </SelectContent>
           </Select>
         </div>
-      </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
