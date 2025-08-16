@@ -188,12 +188,7 @@ export default function Home() {
             A dead-simple way to stumble through high-quality prompts. Preview them, customize them, and try them instantly in your favorite AI model.
           </p>
           
-          {/* Stumble Button */}
-          <div className="mb-8">
-            <Button onClick={handleStumble} className="bg-primary hover:bg-primary/90 text-primary-foreground px-8 py-3 text-lg font-semibold rounded-full">
-              STUMBLE
-            </Button>
-          </div>
+          
 
           <div className="flex flex-wrap justify-center items-center gap-4 text-sm text-muted-foreground">
             <span>Try instantly in:</span>
