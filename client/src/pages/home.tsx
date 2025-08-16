@@ -181,9 +181,12 @@ export default function Home() {
       <section className="bg-background py-12">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-6">
-            Discover interesting
-            <span className="block">AI prompts</span>
+            Discover Amazing
+            <span className="text-primary"> AI Prompts</span>
           </h2>
+          <p className="text-xl text-muted-foreground mb-8 max-w-2xl mx-auto">
+            A dead-simple way to stumble through high-quality prompts. Preview them, customize them, and try them instantly in your favorite AI model.
+          </p>
           
           {/* Stumble Button */}
           <div className="mb-8">
