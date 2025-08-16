@@ -30,7 +30,12 @@ export function PromptCard({ prompt, onNext, onPrevious, onUse }: PromptCardProp
   const promptVariables = extractVariables(prompt.prompt);
 
   const handleVariableChange = (variable: string, value: string) => {
-    setVariables(prev => ({ ...prev, [variable]: value }));
+    console.log(`Setting variable "${variable}" to value:`, value);
+    setVariables(prev => {
+      const newState = { ...prev, [variable]: value };
+      console.log('Updated variables state:', newState);
+      return newState;
+    });
   };
 
   const handleCopyPrompt = async () => {

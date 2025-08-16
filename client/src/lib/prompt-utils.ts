@@ -10,6 +10,8 @@ export function extractVariables(prompt: string): string[] {
     }
   }
   
+  console.log('Extracted variables from prompt:', variables);
+  console.log('From prompt text:', prompt);
   return variables;
 }
 
