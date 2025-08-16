@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Input } from "@/components/ui/input";
@@ -24,6 +24,8 @@ interface PromptCardProps {
 
 export function PromptCard({ prompt, onNext, onPrevious, onUse }: PromptCardProps) {
   const [variables, setVariables] = useState<Record<string, string>>({});
+  const [isLLMButtonHovered, setIsLLMButtonHovered] = useState(false);
+  const [showTipOverlay, setShowTipOverlay] = useState(false);
 
   const promptVariables = extractVariables(prompt.prompt);
 
@@ -53,7 +55,16 @@ export function PromptCard({ prompt, onNext, onPrevious, onUse }: PromptCardProp
     }
   };
 
+  // Check if variables are empty
+  const hasEmptyVariables = promptVariables.length > 0 && promptVariables.some(variable => !variables[variable]?.trim());
+
   const handleTryInPlatform = (platform: 'chatgpt' | 'claude' | 'gemini' | 'openrouter') => {
+    // Show tip overlay if variables are empty
+    if (hasEmptyVariables) {
+      setShowTipOverlay(true);
+      setTimeout(() => setShowTipOverlay(false), 2000);
+    }
+    
     onUse();
     
     let link = '';
@@ -156,7 +167,7 @@ export function PromptCard({ prompt, onNext, onPrevious, onUse }: PromptCardProp
 
         {/* Variable Fields */}
         {promptVariables.length > 0 && (
-          <div className="mb-6">
+          <div className="mb-6 relative">
             <h4 className="font-display-small text-card-foreground mb-3">Customize Variables</h4>
             <div className="space-y-3">
               {promptVariables.map(variable => (
@@ -168,10 +179,26 @@ export function PromptCard({ prompt, onNext, onPrevious, onUse }: PromptCardProp
                     placeholder={`Enter value for {${variable}}`}
                     value={variables[variable] || ''}
                     onChange={(e) => handleVariableChange(variable, e.target.value)}
+                    className={`transition-all duration-300 ${
+                      isLLMButtonHovered && hasEmptyVariables && !variables[variable]?.trim()
+                        ? 'ring-2 ring-primary/50 ring-offset-2 animate-pulse'
+                        : ''
+                    }`}
                   />
                 </div>
               ))}
             </div>
+            
+            {/* Tip Overlay */}
+            {showTipOverlay && (
+              <div className="absolute top-0 left-0 right-0 bg-primary/90 backdrop-blur-sm text-primary-foreground px-4 py-3 rounded-lg shadow-lg border border-primary/20 z-20 animate-in fade-in slide-in-from-top-2 duration-200">
+                <div className="flex items-center justify-center gap-2 text-sm font-medium">
+                  <span>💡</span>
+                  <span>Tip: Add your details above for better results</span>
+                  <div className="absolute top-full left-1/2 transform -translate-x-1/2 w-0 h-0 border-l-4 border-r-4 border-t-4 border-l-transparent border-r-transparent border-t-primary/90"></div>
+                </div>
+              </div>
+            )}
           </div>
         )}
 
@@ -179,28 +206,36 @@ export function PromptCard({ prompt, onNext, onPrevious, onUse }: PromptCardProp
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
           <Button
             onClick={() => handleTryInPlatform('chatgpt')}
-            className="bg-green-600 hover:bg-green-700 text-white"
+            onMouseEnter={() => setIsLLMButtonHovered(true)}
+            onMouseLeave={() => setIsLLMButtonHovered(false)}
+            className="bg-green-600 hover:bg-green-700 text-white transition-all duration-200"
           >
             <ExternalLink className="w-4 h-4 mr-2" />
             ChatGPT
           </Button>
           <Button
             onClick={() => handleTryInPlatform('claude')}
-            className="bg-orange-600 hover:bg-orange-700 text-white"
+            onMouseEnter={() => setIsLLMButtonHovered(true)}
+            onMouseLeave={() => setIsLLMButtonHovered(false)}
+            className="bg-orange-600 hover:bg-orange-700 text-white transition-all duration-200"
           >
             <ExternalLink className="w-4 h-4 mr-2" />
             Claude
           </Button>
           <Button
             onClick={() => handleTryInPlatform('gemini')}
-            className="bg-blue-600 hover:bg-blue-700 text-white"
+            onMouseEnter={() => setIsLLMButtonHovered(true)}
+            onMouseLeave={() => setIsLLMButtonHovered(false)}
+            className="bg-blue-600 hover:bg-blue-700 text-white transition-all duration-200"
           >
             <ExternalLink className="w-4 h-4 mr-2" />
             Gemini
           </Button>
           <Button
             onClick={() => handleTryInPlatform('openrouter')}
-            className="bg-purple-600 hover:bg-purple-700 text-white"
+            onMouseEnter={() => setIsLLMButtonHovered(true)}
+            onMouseLeave={() => setIsLLMButtonHovered(false)}
+            className="bg-purple-600 hover:bg-purple-700 text-white transition-all duration-200"
           >
             <ExternalLink className="w-4 h-4 mr-2" />
             OpenRouter
