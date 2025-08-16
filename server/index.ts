@@ -1,43 +1,10 @@
 import express, { type Request, Response, NextFunction } from "express";
-import session from "express-session";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-
-// Configure session middleware with proper SESSION_SECRET handling
-try {
-  const sessionSecret = process.env.SESSION_SECRET;
-  
-  if (!sessionSecret) {
-    if (process.env.NODE_ENV === 'production') {
-      throw new Error('SESSION_SECRET environment variable is required in production');
-    } else {
-      log('Warning: SESSION_SECRET not set, using development fallback');
-    }
-  }
-
-  app.use(session({
-    secret: sessionSecret || 'dev-secret-change-in-production',
-    resave: false,
-    saveUninitialized: false,
-    cookie: {
-      secure: process.env.NODE_ENV === 'production',
-      httpOnly: true,
-      maxAge: 24 * 60 * 60 * 1000 // 24 hours
-    }
-  }));
-  
-  log('Session middleware configured successfully');
-} catch (error) {
-  const errorMessage = error instanceof Error ? error.message : 'Unknown error';
-  log(`Session middleware configuration failed: ${errorMessage}`);
-  if (process.env.NODE_ENV === 'production') {
-    process.exit(1);
-  }
-}
 
 app.use((req, res, next) => {
   const start = Date.now();
