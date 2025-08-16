@@ -3,6 +3,7 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertPromptSchema } from "@shared/schema";
 import { z } from "zod";
+import { generateSitemap } from "./sitemap";
 
 export async function registerRoutes(app: Express): Promise<Server> {
   console.log('🔧 Registering API routes...');
@@ -136,6 +137,27 @@ export async function registerRoutes(app: Express): Promise<Server> {
       console.error('Error incrementing use count:', error);
       res.status(500).json({ 
         message: "Failed to increment use count",
+        error: process.env.NODE_ENV === 'development' ? String(error) : undefined
+      });
+    }
+  });
+
+  // Generate sitemap
+  app.get("/sitemap.xml", async (req, res) => {
+    try {
+      const prompts = await storage.getAllPrompts();
+      const baseUrl = process.env.REPLIT_DEV_DOMAIN 
+        ? `https://${process.env.REPLIT_DEV_DOMAIN}` 
+        : 'https://stumbleuponprompt.replit.app';
+      
+      const sitemap = generateSitemap(prompts || [], baseUrl);
+      
+      res.set('Content-Type', 'application/xml');
+      res.send(sitemap);
+    } catch (error) {
+      console.error('Error generating sitemap:', error);
+      res.status(500).json({ 
+        message: "Failed to generate sitemap",
         error: process.env.NODE_ENV === 'development' ? String(error) : undefined
       });
     }

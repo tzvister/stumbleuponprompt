@@ -1,14 +1,17 @@
 import { useState, useEffect } from "react";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useLocation } from "wouter";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Dice1, Search, Plus } from "lucide-react";
 import { PromptCard } from "@/components/prompt-card";
 import { FilterSidebar } from "@/components/filter-sidebar";
 import { CreatorModal } from "@/components/creator-modal";
+import { SEOHead } from "@/components/seo-head";
 import { Prompt } from "@shared/schema";
 import { apiRequest } from "@/lib/queryClient";
 import { toast } from "@/hooks/use-toast";
+import { createPromptUrl } from "../../../lib/seo-utils";
 
 export default function Home() {
   const [currentPrompt, setCurrentPrompt] = useState<Prompt | null>(null);
@@ -22,6 +25,7 @@ export default function Home() {
   const [searchQuery, setSearchQuery] = useState("");
   const [isCreatorModalOpen, setIsCreatorModalOpen] = useState(false);
   const [isFiltersCollapsed, setIsFiltersCollapsed] = useState(true); // Collapsed by default
+  const [, navigate] = useLocation();
   const queryClient = useQueryClient();
 
   // Fetch all prompts
@@ -160,6 +164,12 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-background">
+      <SEOHead
+        title="StumbleUponPrompt - Discover Quality AI Prompts"
+        description="Discover high-quality AI prompts for ChatGPT, Claude, and Gemini. Stumble through curated prompts with one-click integration and try them instantly."
+        canonicalUrl={window.location.href}
+      />
+      
       {/* Header */}
       <header className="bg-card border-b border-border">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
+import { useLocation } from "wouter";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { X, ChevronDown, ChevronUp, Filter } from "lucide-react";
+import { X, ChevronDown, ChevronUp, Filter, ExternalLink } from "lucide-react";
 import { getTagColor } from "@/lib/tag-colors";
 import { Prompt } from "@shared/schema";
 
@@ -23,6 +24,7 @@ export function FilterSidebar({ onFiltersChange, isCollapsed, onToggleCollapse }
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [selectedModels, setSelectedModels] = useState<string[]>([]);
   const [tokenRange, setTokenRange] = useState<string>("");
+  const [, navigate] = useLocation();
 
   // Fetch all prompts to extract available tags and models
   const { data: allPrompts = [] } = useQuery({
@@ -30,11 +32,16 @@ export function FilterSidebar({ onFiltersChange, isCollapsed, onToggleCollapse }
     select: (data) => data as Prompt[],
   });
 
-  // Extract unique tags from all prompts
-  const availableTags = Array.from(
-    new Set(allPrompts.flatMap(prompt => prompt.tags || []))
-  ).sort();
-
+  // Extract unique tags from all prompts with counts
+  const tagCounts = allPrompts.reduce((acc: Record<string, number>, prompt) => {
+    prompt.tags?.forEach(tag => {
+      acc[tag] = (acc[tag] || 0) + 1;
+    });
+    return acc;
+  }, {});
+  
+  const availableTags = Object.keys(tagCounts).sort();
+  
   // Extract unique models from testedOn field
   const availableModels = Array.from(
     new Set(allPrompts.flatMap(prompt => prompt.testedOn || []))
@@ -120,7 +127,36 @@ export function FilterSidebar({ onFiltersChange, isCollapsed, onToggleCollapse }
         <div className="p-4">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <div>
-          <Label className="text-sm font-display-small text-card-foreground mb-2 block">Tags</Label>
+          <div className="flex items-center justify-between mb-2">
+            <Label className="text-sm font-display-small text-card-foreground">Tags</Label>
+            <Button
+              variant="ghost"
+              size="sm"
+              onClick={() => navigate('/category/all')}
+              className="text-xs text-muted-foreground hover:text-foreground"
+            >
+              View all categories
+              <ExternalLink className="w-3 h-3 ml-1" />
+            </Button>
+          </div>
+          
+          {/* Popular Tags */}
+          <div className="mb-3">
+            <div className="text-xs text-muted-foreground mb-2">Popular:</div>
+            <div className="flex flex-wrap gap-1">
+              {availableTags.slice(0, 8).map(tag => (
+                <button
+                  key={tag}
+                  onClick={() => navigate(`/tag/${encodeURIComponent(tag)}`)}
+                  className={`px-2 py-1 rounded-full text-xs font-medium ${getTagColor(tag)} hover:opacity-80 transition-opacity flex items-center gap-1`}
+                >
+                  {tag}
+                  <span className="text-xs opacity-70">({tagCounts[tag]})</span>
+                </button>
+              ))}
+            </div>
+          </div>
+          
           <Select onValueChange={handleTagChange}>
             <SelectTrigger>
               <SelectValue placeholder="Add tag filter" />
@@ -128,7 +164,7 @@ export function FilterSidebar({ onFiltersChange, isCollapsed, onToggleCollapse }
             <SelectContent>
               {availableTags.filter(tag => !selectedTags.includes(tag)).map(tag => (
                 <SelectItem key={tag} value={tag}>
-                  {tag}
+                  {tag} ({tagCounts[tag]})
                 </SelectItem>
               ))}
             </SelectContent>
