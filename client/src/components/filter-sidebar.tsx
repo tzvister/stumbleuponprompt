@@ -1,10 +1,12 @@
 import { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
 import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { X, ChevronDown, ChevronUp, Filter } from "lucide-react";
 import { getTagColor } from "@/lib/tag-colors";
+import { Prompt } from "@shared/schema";
 
 interface FilterSidebarProps {
   onFiltersChange: (filters: {
@@ -16,38 +18,27 @@ interface FilterSidebarProps {
   onToggleCollapse: () => void;
 }
 
-const tags = [
-  "Writing & Content",
-  "Analysis & Research", 
-  "Creative & Design",
-  "Business & Strategy",
-  "Technical & Code",
-  "Analysis",
-  "Productivity",
-  "Business",
-  "Education",
-  "Learning",
-  "Simplification",
-  "Strategy",
-  "Innovation",
-  "Problem Solving",
-  "Copywriting",
-  "Marketing",
-  "Sales",
-  "Research",
-  "Business Intelligence"
-];
-
-const models = [
-  "GPT-4",
-  "Claude 3",
-  "Gemini Pro"
-];
 
 export function FilterSidebar({ onFiltersChange, isCollapsed, onToggleCollapse }: FilterSidebarProps) {
   const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [selectedModels, setSelectedModels] = useState<string[]>([]);
   const [tokenRange, setTokenRange] = useState<string>("");
+
+  // Fetch all prompts to extract available tags and models
+  const { data: allPrompts = [] } = useQuery({
+    queryKey: ["/api/prompts"],
+    select: (data) => data as Prompt[],
+  });
+
+  // Extract unique tags from all prompts
+  const availableTags = Array.from(
+    new Set(allPrompts.flatMap(prompt => prompt.tags || []))
+  ).sort();
+
+  // Extract unique models from testedOn field
+  const availableModels = Array.from(
+    new Set(allPrompts.flatMap(prompt => prompt.testedOn || []))
+  ).sort();
 
   const handleTagChange = (value: string) => {
     if (value && !selectedTags.includes(value)) {
@@ -135,7 +126,7 @@ export function FilterSidebar({ onFiltersChange, isCollapsed, onToggleCollapse }
               <SelectValue placeholder="Add tag filter" />
             </SelectTrigger>
             <SelectContent>
-              {tags.filter(tag => !selectedTags.includes(tag)).map(tag => (
+              {availableTags.filter(tag => !selectedTags.includes(tag)).map(tag => (
                 <SelectItem key={tag} value={tag}>
                   {tag}
                 </SelectItem>
@@ -166,7 +157,7 @@ export function FilterSidebar({ onFiltersChange, isCollapsed, onToggleCollapse }
               <SelectValue placeholder="Add model filter" />
             </SelectTrigger>
             <SelectContent>
-              {models.filter(model => !selectedModels.includes(model)).map(model => (
+              {availableModels.filter(model => !selectedModels.includes(model)).map(model => (
                 <SelectItem key={model} value={model}>
                   {model}
                 </SelectItem>
