@@ -1,72 +1,5 @@
 [
   {
-    "title": "The Brutal Truth Engine",
-    "description": "A direct, unfiltered analytical system that cuts through noise to deliver hard reality. Perfect for honest assessments and clear solutions.",
-    "prompt": "<role>\nYou are the brutal truth engine - a direct, unfiltered analytical system...",
-    "tags": [
-      "Analysis",
-      "Productivity",
-      "Business",
-      "Analysis & Research"
-    ],
-    "estimatedTokens": 350,
-    "creatorName": "John Doe",
-    "variables": [
-      "{situation}"
-    ],
-    "testedOn": [
-      "GPT-4",
-      "Claude 3",
-      "Gemini Pro"
-    ],
-    "version": "1.0.0"
-  },
-  {
-    "title": "Expert Teacher Prompt",
-    "description": "Break down complex topics like you're explaining to a 5-year-old with 20 years of expertise.",
-    "prompt": "Pretend you are an expert with 20 years of experience in {industry/topic}...",
-    "tags": [
-      "Education",
-      "Learning",
-      "Simplification",
-      "Writing & Content"
-    ],
-    "estimatedTokens": 120,
-    "creatorName": "Sarah Chen",
-    "variables": [
-      "{industry/topic}",
-      "{topic}"
-    ],
-    "testedOn": [
-      "GPT-4",
-      "Claude 3",
-      "Gemini Pro"
-    ],
-    "version": "1.0.0"
-  },
-  {
-    "title": "Personal Thought Partner",
-    "description": "Question every assumption, point out blind spots, and help evolve ideas into something 10x better.",
-    "prompt": "Act as my personal thought partner. I'll describe {my idea/problem}...",
-    "tags": [
-      "Strategy",
-      "Innovation",
-      "Problem Solving",
-      "Business & Strategy"
-    ],
-    "estimatedTokens": 80,
-    "creatorName": "Alex Rivera",
-    "variables": [
-      "{my idea/problem}",
-      "{idea_or_problem}"
-    ],
-    "testedOn": [
-      "GPT-4",
-      "Claude 3"
-    ],
-    "version": "1.0.0"
-  },
-  {
     "title": "Viral Content Brainstormer",
     "description": "Generate fresh, share‑worthy content ideas tailored to a specific niche and audience.",
     "prompt": "You are a creative content strategist tasked with brainstorming viral ideas. The niche is {niche}. The target audience is {audience_profile}. Provide:\n1. A catchy hook or headline.\n2. A brief concept description.\n3. Suggested format (video, infographic, blog post, meme, etc.).\nDeliver at least 5 ideas.",
@@ -161,7 +94,12 @@
     "tags": ["Travel", "Planning", "Lifestyle"],
     "estimatedTokens": 300,
     "creatorName": "Avi Cohen",
-    "variables": ["{destination}", "{number_of_days}", "{interests}", "{budget}"],
+    "variables": [
+      "{destination}",
+      "{number_of_days}",
+      "{interests}",
+      "{budget}"
+    ],
     "testedOn": ["GPT-4", "Claude 3"],
     "version": "1.0.0"
   },
@@ -271,7 +209,13 @@
     "tags": ["Fitness", "Health", "Lifestyle"],
     "estimatedTokens": 200,
     "creatorName": "Lina Rossi",
-    "variables": ["{duration}", "{goals}", "{fitness_level}", "{equipment}", "{session_length}"],
+    "variables": [
+      "{duration}",
+      "{goals}",
+      "{fitness_level}",
+      "{equipment}",
+      "{session_length}"
+    ],
     "testedOn": ["GPT-4", "Claude 3"],
     "version": "1.0.0"
   },
@@ -282,7 +226,14 @@
     "tags": ["Nutrition", "Health", "Lifestyle"],
     "estimatedTokens": 220,
     "creatorName": "Andre Seifert",
-    "variables": ["{age}", "{gender}", "{weight}", "{height}", "{fitness_goal}", "{dietary_needs}"],
+    "variables": [
+      "{age}",
+      "{gender}",
+      "{weight}",
+      "{height}",
+      "{fitness_goal}",
+      "{dietary_needs}"
+    ],
     "testedOn": ["GPT-4", "Gemini Pro"],
     "version": "1.0.0"
   }

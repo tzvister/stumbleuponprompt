@@ -203,7 +203,7 @@ export default function Home() {
       </section>
 
       {/* Main Content */}
-      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+      <main className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 pb-6">
         <div className="space-y-4">
           {/* Filter Sidebar */}
           <div className="w-full">
