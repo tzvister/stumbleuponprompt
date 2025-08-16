@@ -71,6 +71,8 @@ export function PromptCard({ prompt, onNext, onPrevious, onUse }: PromptCardProp
     switch (platform) {
       case 'chatgpt':
         link = generateChatGPTLink({ prompt: prompt.prompt, variables });
+        // Debug: Log the final URL
+        console.log('Opening ChatGPT with URL:', link);
         break;
       case 'claude':
         link = generateClaudeLink({ prompt: prompt.prompt, variables });

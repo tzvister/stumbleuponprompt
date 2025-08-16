@@ -5,8 +5,9 @@ export interface DeepLinkOptions {
 
 export function generateChatGPTLink({ prompt, variables = {} }: DeepLinkOptions): string {
   const finalPrompt = substituteVariables(prompt, variables);
-  const encodedPrompt = encodeURIComponent(finalPrompt);
-  return `https://chat.openai.com/?model=gpt-4&q=${encodedPrompt}`;
+  // Use the + encoding format that ChatGPT prefers
+  const encodedPrompt = encodeURIComponent(finalPrompt).replace(/%20/g, '+');
+  return `https://chatgpt.com/?q=${encodedPrompt}`;
 }
 
 export function generateClaudeLink({ prompt, variables = {} }: DeepLinkOptions): string {
