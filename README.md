@@ -147,10 +147,19 @@ Each prompt object must follow this structure:
   "estimatedTokens": 120,
   "creatorName": "Sarah Chen",
   "variables": ["{industry/topic}", "{topic}"],
+  "variableDescriptions": {
+    "industry/topic": "What area you want explained (e.g., quantum computing, unit testing)",
+    "topic": "The specific topic within that area you want to focus on"
+  },
   "testedOn": ["GPT-4", "Claude 3", "Gemini Pro"],
   "version": "1.0.0"
 }
 ```
+
+#### Variable Descriptions
+- `variableDescriptions` is an optional map that provides a human‑friendly placeholder text for each variable input field on the UI.
+- Keys can be either the bare variable name without braces (e.g., `niche`) or with braces (e.g., `{niche}`). The UI checks both.
+- If a description is not provided, the UI falls back to `Enter value for {variable}`.
 
 ### Adding New Prompts
 
@@ -159,6 +168,11 @@ Each prompt object must follow this structure:
 3. Use standard tag categories for consistency
 4. Test variables work correctly in prompt content
 5. Validate JSON syntax before committing
+
+## 🔧 Recent Changes
+
+- Fixed prompt detail slug parsing to correctly extract full UUIDs from URLs
+- Added support for descriptive variable placeholders via `variableDescriptions` in `prompts.json`
 
 ## 🤝 Contributing
 

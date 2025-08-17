@@ -7,6 +7,10 @@
     "estimatedTokens": 250,
     "creatorName": "Anita Patel",
     "variables": ["{niche}", "{audience_profile}"],
+    "variableDescriptions": {
+      "niche": "The specific topic or sub-market you want ideas for (e.g., vegan cooking, indie game dev, urban gardening).",
+      "audience_profile": "Who you want to reach (e.g., busy parents, junior developers, Gen Z students)."
+    },
     "testedOn": ["GPT-4", "Claude 3"],
     "version": "1.0.0"
   },
@@ -18,6 +22,10 @@
     "estimatedTokens": 200,
     "creatorName": "Luis Martinez",
     "variables": ["{concept}", "{tone}"],
+    "variableDescriptions": {
+      "concept": "What the startup does or the problem it solves (one short phrase).",
+      "tone": "The desired brand vibe (e.g., playful, professional, futuristic)."
+    },
     "testedOn": ["GPT-4", "Claude 3", "Gemini Pro"],
     "version": "1.0.0"
   },
@@ -29,6 +37,9 @@
     "estimatedTokens": 300,
     "creatorName": "Maya Gold",
     "variables": ["{today_summary}"],
+    "variableDescriptions": {
+      "today_summary": "A few sentences about what happened today and how you felt."
+    },
     "testedOn": ["GPT-4", "Claude 3"],
     "version": "1.0.0"
   },
@@ -40,6 +51,9 @@
     "estimatedTokens": 320,
     "creatorName": "Daniel Rosen",
     "variables": ["{life_events}"],
+    "variableDescriptions": {
+      "life_events": "Bullet list of key memories, milestones and turning points."
+    },
     "testedOn": ["GPT-4", "Gemini Pro"],
     "version": "1.0.0"
   },
@@ -51,6 +65,9 @@
     "estimatedTokens": 400,
     "creatorName": "Samira Khan",
     "variables": ["{themes}"],
+    "variableDescriptions": {
+      "themes": "High-level ideas to shape the world (e.g., steampunk, ancient magic, post‑apocalyptic)."
+    },
     "testedOn": ["GPT-4", "Claude 3", "Gemini Pro"],
     "version": "1.0.0"
   },
@@ -62,6 +79,9 @@
     "estimatedTokens": 350,
     "creatorName": "Noah Green",
     "variables": ["{world_description}"],
+    "variableDescriptions": {
+      "world_description": "Short description of the story world’s feel, tech level, and key factions."
+    },
     "testedOn": ["GPT-4", "Claude 3"],
     "version": "1.0.0"
   },
@@ -73,6 +93,9 @@
     "estimatedTokens": 500,
     "creatorName": "Ethan Blake",
     "variables": ["{character_details}"],
+    "variableDescriptions": {
+      "character_details": "Player character basics: class, race, HP, AC, and a one‑paragraph backstory."
+    },
     "testedOn": ["GPT-4"],
     "version": "1.0.0"
   },
@@ -84,6 +107,9 @@
     "estimatedTokens": 350,
     "creatorName": "Olivia Tran",
     "variables": ["{genre}"],
+    "variableDescriptions": {
+      "genre": "Story style you want (e.g., sci‑fi, mystery, fantasy, thriller)."
+    },
     "testedOn": ["GPT-4", "Claude 3", "Gemini Pro"],
     "version": "1.0.0"
   },
@@ -100,6 +126,12 @@
       "{interests}",
       "{budget}"
     ],
+    "variableDescriptions": {
+      "destination": "City or region for the trip (e.g., Kyoto, Iceland Ring Road).",
+      "number_of_days": "Trip length in whole days (e.g., 5).",
+      "interests": "What you enjoy (e.g., museums, hiking, coffee shops).",
+      "budget": "Overall budget guidance (e.g., shoestring, mid‑range, luxury)."
+    },
     "testedOn": ["GPT-4", "Claude 3"],
     "version": "1.0.0"
   },
@@ -111,6 +143,10 @@
     "estimatedTokens": 220,
     "creatorName": "Nina Levi",
     "variables": ["{city}", "{local_language}"],
+    "variableDescriptions": {
+      "city": "The destination city (e.g., Barcelona).",
+      "local_language": "The primary local language (e.g., Spanish, Japanese)."
+    },
     "testedOn": ["GPT-4", "Claude 3", "Gemini Pro"],
     "version": "1.0.0"
   },
@@ -122,6 +158,9 @@
     "estimatedTokens": 250,
     "creatorName": "Rachel Adler",
     "variables": ["{task_list}"],
+    "variableDescriptions": {
+      "task_list": "Comma or line‑separated list of tasks you want to organize."
+    },
     "testedOn": ["GPT-4", "Gemini Pro"],
     "version": "1.0.0"
   },
@@ -133,6 +172,9 @@
     "estimatedTokens": 200,
     "creatorName": "Ivan Petrov",
     "variables": ["{meeting_transcript}"],
+    "variableDescriptions": {
+      "meeting_transcript": "Raw transcript text or bullet notes from the meeting."
+    },
     "testedOn": ["GPT-4", "Claude 3"],
     "version": "1.0.0"
   },
@@ -144,6 +186,10 @@
     "estimatedTokens": 180,
     "creatorName": "Sofia Reyes",
     "variables": ["{mood}", "{recent_favorites}"],
+    "variableDescriptions": {
+      "mood": "How you feel right now (e.g., cozy, adventurous, thoughtful).",
+      "recent_favorites": "Titles you liked recently (movies and/or books)."
+    },
     "testedOn": ["GPT-4", "Claude 3", "Gemini Pro"],
     "version": "1.0.0"
   },
@@ -155,6 +201,10 @@
     "estimatedTokens": 230,
     "creatorName": "Kai Nakamura",
     "variables": ["{product_list}", "{requirements}"],
+    "variableDescriptions": {
+      "product_list": "Names of 2–3 products to compare (e.g., iPhone 15, Pixel 9).",
+      "requirements": "What matters to you (e.g., camera quality, battery life, price)."
+    },
     "testedOn": ["GPT-4", "Claude 3"],
     "version": "1.0.0"
   },
@@ -166,6 +216,10 @@
     "estimatedTokens": 220,
     "creatorName": "Mei Chen",
     "variables": ["{language}", "{code_snippet}"],
+    "variableDescriptions": {
+      "language": "Programming language for the review/refactor (e.g., Python, TypeScript).",
+      "code_snippet": "The code to review (paste a function or small file)."
+    },
     "testedOn": ["GPT-4", "Gemini Pro"],
     "version": "1.0.0"
   },
@@ -177,6 +231,10 @@
     "estimatedTokens": 250,
     "creatorName": "Rafael Silva",
     "variables": ["{algorithm_name}", "{language}"],
+    "variableDescriptions": {
+      "algorithm_name": "Name of the algorithm (e.g., Dijkstra, QuickSort).",
+      "language": "Programming language for the example implementation."
+    },
     "testedOn": ["GPT-4", "Claude 3"],
     "version": "1.0.0"
   },
@@ -188,6 +246,11 @@
     "estimatedTokens": 160,
     "creatorName": "Yara Haddad",
     "variables": ["{word_or_phrase_1}", "{word_or_phrase_2}", "{language}"],
+    "variableDescriptions": {
+      "word_or_phrase_1": "First confusing word or phrase.",
+      "word_or_phrase_2": "Second confusing word or phrase.",
+      "language": "Language to explain in (e.g., English, French)."
+    },
     "testedOn": ["GPT-4", "Claude 3", "Gemini Pro"],
     "version": "1.0.0"
   },
@@ -199,6 +262,11 @@
     "estimatedTokens": 180,
     "creatorName": "Mohammed Alon",
     "variables": ["{role}", "{language}", "{topic}"],
+    "variableDescriptions": {
+      "role": "Who the partner should pretend to be (e.g., barista, recruiter).",
+      "language": "Target language for the conversation.",
+      "topic": "Conversation theme (e.g., ordering coffee, job interview)."
+    },
     "testedOn": ["GPT-4", "Gemini Pro"],
     "version": "1.0.0"
   },

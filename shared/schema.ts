@@ -13,6 +13,7 @@ export const prompts = pgTable("prompts", {
   useCount: integer("use_count").notNull().default(0),
   creatorName: text("creator_name").notNull(),
   variables: jsonb("variables").$type<string[]>().notNull().default([]),
+  variableDescriptions: jsonb("variable_descriptions").$type<Record<string, string>>().default({}),
   testedOn: jsonb("tested_on").$type<string[]>().notNull().default([]),
   version: text("version").notNull().default("1.0.0"),
   lastUpdated: timestamp("last_updated").defaultNow(),

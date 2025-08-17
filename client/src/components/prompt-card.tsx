@@ -9,9 +9,9 @@ import { Prompt } from "@shared/schema";
 import { 
   generateChatGPTLink, 
   generateClaudeLink, 
-  generateGeminiLink, 
-  generateOpenRouterLink 
+  generateGeminiLink
 } from "@/lib/deep-links";
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { extractVariables, formatVariableName } from "@/lib/prompt-utils";
 import { getTagColor } from "@/lib/tag-colors";
 
@@ -58,7 +58,7 @@ export function PromptCard({ prompt, onNext, onPrevious, onUse }: PromptCardProp
   // Check if variables are empty
   const hasEmptyVariables = promptVariables.length > 0 && promptVariables.some(variable => !variables[variable]?.trim());
 
-  const handleTryInPlatform = (platform: 'chatgpt' | 'claude' | 'gemini' | 'openrouter') => {
+  const handleTryInPlatform = async (platform: 'chatgpt' | 'claude' | 'gemini') => {
     // Show tip overlay if variables are empty
     if (hasEmptyVariables) {
       setShowTipOverlay(true);
@@ -76,14 +76,21 @@ export function PromptCard({ prompt, onNext, onPrevious, onUse }: PromptCardProp
         link = generateClaudeLink({ prompt: prompt.prompt, variables });
         break;
       case 'gemini':
-        link = generateGeminiLink({ prompt: prompt.prompt, variables });
-        break;
-      case 'openrouter':
-        link = generateOpenRouterLink({ prompt: prompt.prompt, variables });
+        // Gemini does not reliably support URL prefill; copy then open app
+        try {
+          let finalPrompt = prompt.prompt;
+          Object.entries(variables).forEach(([key, value]) => {
+            const regex = new RegExp(`\\{${key}\\}`, 'g');
+            finalPrompt = finalPrompt.replace(regex, value);
+          });
+          await navigator.clipboard.writeText(finalPrompt);
+          toast({ title: 'Prompt copied', description: 'Paste into Gemini after it opens' });
+        } catch {}
+        link = 'https://gemini.google.com/app';
         break;
     }
 
-    window.open(link, '_blank');
+    if (link) window.open(link, '_blank');
   };
 
   const handleShare = async () => {
@@ -168,7 +175,8 @@ export function PromptCard({ prompt, onNext, onPrevious, onUse }: PromptCardProp
         {/* Variable Fields */}
         {promptVariables.length > 0 && (
           <div className="mb-6 relative">
-            <h4 className="font-display-small text-card-foreground mb-3">Customize Variables</h4>
+            <h4 className="font-display-small text-card-foreground mb-1">Customize Variables</h4>
+            <p className="text-xs text-muted-foreground mb-3">To answer this well, fill your personal context below.</p>
             <div className="space-y-3">
               {promptVariables.map(variable => (
                 <div key={variable}>
@@ -176,7 +184,12 @@ export function PromptCard({ prompt, onNext, onPrevious, onUse }: PromptCardProp
                     {formatVariableName(variable)}
                   </Label>
                   <Input
-                    placeholder={`Enter value for {${variable}}`}
+                    placeholder={(
+                      (() => {
+                        const map = (prompt as any)?.variableDescriptions || {};
+                        return map[variable] ?? map[`{${variable}}`] ?? `Enter value for {${variable}}`;
+                      })()
+                    )}
                     value={variables[variable] || ''}
                     onChange={(e) => handleVariableChange(variable, e.target.value)}
                     className={`transition-all duration-300 ${
@@ -185,6 +198,11 @@ export function PromptCard({ prompt, onNext, onPrevious, onUse }: PromptCardProp
                         : ''
                     }`}
                   />
+                  {prompt.variableDescriptions && (prompt.variableDescriptions as Record<string, string>)[variable] && (
+                    <div className="text-xs text-muted-foreground mt-1">
+                      {(prompt.variableDescriptions as Record<string, string>)[variable]}
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
@@ -203,7 +221,7 @@ export function PromptCard({ prompt, onNext, onPrevious, onUse }: PromptCardProp
         )}
 
         {/* Action Buttons */}
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
+        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
           <Button
             onClick={() => handleTryInPlatform('chatgpt')}
             onMouseEnter={() => setIsLLMButtonHovered(true)}
@@ -222,24 +240,28 @@ export function PromptCard({ prompt, onNext, onPrevious, onUse }: PromptCardProp
             <ExternalLink className="w-4 h-4 mr-2" />
             Claude
           </Button>
-          <Button
-            onClick={() => handleTryInPlatform('gemini')}
-            onMouseEnter={() => setIsLLMButtonHovered(true)}
-            onMouseLeave={() => setIsLLMButtonHovered(false)}
-            className="bg-blue-600 hover:bg-blue-700 text-white transition-all duration-200"
-          >
-            <ExternalLink className="w-4 h-4 mr-2" />
-            Gemini
-          </Button>
-          <Button
-            onClick={() => handleTryInPlatform('openrouter')}
-            onMouseEnter={() => setIsLLMButtonHovered(true)}
-            onMouseLeave={() => setIsLLMButtonHovered(false)}
-            className="bg-purple-600 hover:bg-purple-700 text-white transition-all duration-200"
-          >
-            <ExternalLink className="w-4 h-4 mr-2" />
-            OpenRouter
-          </Button>
+          <div className="flex flex-col items-stretch">
+            <TooltipProvider>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <Button
+                    onClick={() => handleTryInPlatform('gemini')}
+                    onMouseEnter={() => setIsLLMButtonHovered(true)}
+                    onMouseLeave={() => setIsLLMButtonHovered(false)}
+                    className="bg-blue-600 hover:bg-blue-700 text-white transition-all duration-200"
+                  >
+                    <ExternalLink className="w-4 h-4 mr-2" />
+                    Gemini
+                  </Button>
+                </TooltipTrigger>
+                <TooltipContent>
+                  <span>Copy & Paste only</span>
+                </TooltipContent>
+              </Tooltip>
+            </TooltipProvider>
+            <div className="text-[10px] text-muted-foreground mt-1 text-center uppercase tracking-wide">Copy & Paste only</div>
+          </div>
+          {/* OpenRouter removed */}
         </div>
 
         {/* Prompt Preview */}
