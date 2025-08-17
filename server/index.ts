@@ -99,20 +99,11 @@ process.on('unhandledRejection', (reason, promise) => {
     console.log(`🌐 Starting HTTP server on ${port}...`);
     
     const startServer = new Promise<void>((resolve, reject) => {
-      const serverInstance = server.listen({
-        port,
-        host: "0.0.0.0",
-        reusePort: true,
-      }, (error?: Error) => {
-        if (error) {
-          console.error('❌ Server failed to start:', error);
-          reject(error);
-        } else {
-          console.log(`✅ Server successfully started on port ${port}`);
-          console.log(`🌍 Server accessible at http://0.0.0.0:${port}`);
-          log(`serving on port ${port}`);
-          resolve();
-        }
+      const serverInstance = server.listen(port, "127.0.0.1", () => {
+        console.log(`✅ Server successfully started on port ${port}`);
+        console.log(`🌍 Server accessible at http://127.0.0.1:${port}`);
+        log(`serving on port ${port}`);
+        resolve();
       });
       
       // Handle server errors

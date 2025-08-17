@@ -13,15 +13,29 @@ export function createPromptUrl(title: string, id: string): string {
 }
 
 export function extractIdFromSlug(slug: string): string | null {
-  // Extract ID from slug format: title-slug-id
-  const parts = slug.split('-');
-  const lastPart = parts[parts.length - 1];
-  
-  // Check if last part looks like an ID (UUID or similar)
-  if (lastPart && (lastPart.length >= 6)) {
-    return lastPart;
+  if (!slug) {
+    return null;
   }
-  
+
+  // Prefer a UUID (v4-like) at the end of the slug
+  const uuidAtEnd = slug.match(/[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/);
+  if (uuidAtEnd) {
+    return uuidAtEnd[0];
+  }
+
+  // Fallback: if the last 36 characters look like a UUID-ish token, use them
+  const possibleUuid = slug.slice(-36);
+  if (/^[0-9a-fA-F-]{36}$/.test(possibleUuid)) {
+    return possibleUuid;
+  }
+
+  // Last-resort fallback: return the substring after the final hyphen
+  const lastDashIndex = slug.lastIndexOf('-');
+  if (lastDashIndex !== -1 && lastDashIndex + 1 < slug.length) {
+    const candidate = slug.slice(lastDashIndex + 1);
+    return candidate || null;
+  }
+
   return null;
 }
 

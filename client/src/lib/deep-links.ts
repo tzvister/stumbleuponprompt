@@ -13,16 +13,17 @@ export function generateChatGPTLink({ prompt, variables = {} }: DeepLinkOptions)
 export function generateClaudeLink({ prompt, variables = {} }: DeepLinkOptions): string {
   const finalPrompt = substituteVariables(prompt, variables);
   const encodedPrompt = encodeURIComponent(finalPrompt);
-  return `https://claude.ai/chat?q=${encodedPrompt}`;
+  return `https://claude.ai/new?q=${encodedPrompt}`;
 }
 
 export function generateGeminiLink({ prompt, variables = {} }: DeepLinkOptions): string {
-  const finalPrompt = substituteVariables(prompt, variables);
-  const encodedPrompt = encodeURIComponent(finalPrompt);
-  return `https://gemini.google.com/app?q=${encodedPrompt}`;
+  // We avoid relying on q= prefill; caller handles clipboard then opens app
+  void prompt; void variables;
+  return `https://gemini.google.com/app`;
 }
 
 export function generateOpenRouterLink({ prompt, variables = {} }: DeepLinkOptions): string {
+  // OpenRouter deep link removed from UI; keep placeholder if referenced elsewhere
   const finalPrompt = substituteVariables(prompt, variables);
   const encodedPrompt = encodeURIComponent(finalPrompt);
   return `https://openrouter.ai/playground?prompt=${encodedPrompt}`;
