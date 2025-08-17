@@ -154,7 +154,7 @@ export function PromptCard({ prompt, onNext, onPrevious, onUse }: PromptCardProp
         <div className="flex justify-between items-start mb-6">
           <div className="flex-1">
             <div className="flex items-center gap-3 mb-2">
-              <h3 className="text-2xl font-display-large text-card-foreground">
+              <h3 className="font-display-large text-card-foreground text-[26px]">
                 {prompt.title}
               </h3>
               <Button variant="ghost" size="sm" onClick={handleShare} className="text-muted-foreground hover:text-card-foreground">
