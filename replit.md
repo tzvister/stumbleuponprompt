@@ -13,6 +13,7 @@ Preferred communication style: Simple, everyday language.
 - Added Grok integration as fourth AI platform alongside ChatGPT, Claude, and Gemini
 - Updated button layout to accommodate all four AI platforms (grid-cols-4)
 - Improved variable input experience while maintaining original placeholder descriptions
+- Optimized mobile layout by hiding token estimation to provide more space for title and description
 
 ## August 16, 2025
 - Removed user authentication system per user request
