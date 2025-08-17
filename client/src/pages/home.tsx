@@ -67,15 +67,6 @@ export default function Home() {
     },
   });
 
-  // Initial redirect to first prompt when page loads
-  useEffect(() => {
-    if (allPrompts && allPrompts.length > 0 && window.location.pathname === '/') {
-      const firstPrompt = allPrompts[0];
-      const promptUrl = createPromptUrl(firstPrompt.title, firstPrompt.id);
-      navigate(promptUrl);
-    }
-  }, [allPrompts, navigate]);
-
   // Filter and search prompts
   useEffect(() => {
     if (!allPrompts) return;
@@ -124,38 +115,34 @@ export default function Home() {
 
     setPrompts(filtered);
     
-    // Redirect to first prompt URL if current prompt is not in filtered results
+    // Reset to first prompt if current prompt is not in filtered results
     if (filtered.length > 0) {
       if (!currentPrompt || !filtered.find(p => p.id === currentPrompt.id)) {
-        const firstPrompt = filtered[0];
-        const promptUrl = createPromptUrl(firstPrompt.title, firstPrompt.id);
-        navigate(promptUrl);
+        setCurrentPrompt(filtered[0]);
+        setCurrentIndex(0);
       }
+    } else {
+      setCurrentPrompt(null);
+      setCurrentIndex(0);
     }
   }, [allPrompts, filters, searchQuery, currentPrompt]);
 
   const handleStumble = () => {
-    if (prompts.length > 0) {
-      const randomPrompt = prompts[Math.floor(Math.random() * prompts.length)];
-      const promptUrl = createPromptUrl(randomPrompt.title, randomPrompt.id);
-      navigate(promptUrl);
-    }
+    stumbleMutation.mutate();
   };
 
   const handleNext = () => {
     if (prompts.length === 0) return;
     const newIndex = (currentIndex + 1) % prompts.length;
-    const nextPrompt = prompts[newIndex];
-    const promptUrl = createPromptUrl(nextPrompt.title, nextPrompt.id);
-    navigate(promptUrl);
+    setCurrentIndex(newIndex);
+    setCurrentPrompt(prompts[newIndex]);
   };
 
   const handlePrevious = () => {
     if (prompts.length === 0) return;
     const newIndex = currentIndex === 0 ? prompts.length - 1 : currentIndex - 1;
-    const previousPrompt = prompts[newIndex];
-    const promptUrl = createPromptUrl(previousPrompt.title, previousPrompt.id);
-    navigate(promptUrl);
+    setCurrentIndex(newIndex);
+    setCurrentPrompt(prompts[newIndex]);
   };
 
   const handleUsePrompt = () => {
