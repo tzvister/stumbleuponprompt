@@ -150,7 +150,6 @@ export function PromptCard({ prompt, onNext, onPrevious, onUse }: PromptCardProp
           </Button>
         </div>
       </div>
-
       <div className="p-8">
         <div className="flex justify-between items-start mb-6">
           <div className="flex-1">
@@ -162,7 +161,7 @@ export function PromptCard({ prompt, onNext, onPrevious, onUse }: PromptCardProp
                 <Share className="w-4 h-4" />
               </Button>
             </div>
-            <p className="text-muted-foreground mb-4">
+            <p className="text-muted-foreground mb-4 text-[18px] font-light">
               {prompt.description}
             </p>
             
