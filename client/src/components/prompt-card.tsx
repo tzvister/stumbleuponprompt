@@ -9,7 +9,8 @@ import { Prompt } from "@shared/schema";
 import { 
   generateChatGPTLink, 
   generateClaudeLink, 
-  generateGeminiLink
+  generateGeminiLink,
+  generateGrokLink
 } from "@/lib/deep-links";
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/components/ui/tooltip";
 import { extractVariables, formatVariableName } from "@/lib/prompt-utils";
@@ -68,7 +69,7 @@ export function PromptCard({ prompt, onNext, onPrevious, onUse }: PromptCardProp
   // Check if variables are empty
   const hasEmptyVariables = promptVariables.length > 0 && promptVariables.some(variable => !variables[variable]?.trim());
 
-  const handleTryInPlatform = async (platform: 'chatgpt' | 'claude' | 'gemini') => {
+  const handleTryInPlatform = async (platform: 'chatgpt' | 'claude' | 'gemini' | 'grok') => {
     // Show tip overlay if variables are empty
     if (hasEmptyVariables) {
       setShowTipOverlay(true);
@@ -97,6 +98,9 @@ export function PromptCard({ prompt, onNext, onPrevious, onUse }: PromptCardProp
           toast({ title: 'Prompt copied', description: 'Paste into Gemini after it opens' });
         } catch {}
         link = 'https://gemini.google.com/app';
+        break;
+      case 'grok':
+        link = generateGrokLink({ prompt: prompt.prompt, variables });
         break;
     }
 
@@ -235,7 +239,7 @@ export function PromptCard({ prompt, onNext, onPrevious, onUse }: PromptCardProp
         )}
 
         {/* Action Buttons */}
-        <div className="grid grid-cols-2 lg:grid-cols-3 gap-3 mb-6">
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 mb-6">
           <Button
             onClick={() => handleTryInPlatform('chatgpt')}
             onMouseEnter={() => setIsLLMButtonHovered(true)}
@@ -275,7 +279,15 @@ export function PromptCard({ prompt, onNext, onPrevious, onUse }: PromptCardProp
             </TooltipProvider>
             <div className="text-[10px] text-muted-foreground mt-1 text-center uppercase tracking-wide">Copy & Paste only</div>
           </div>
-          {/* OpenRouter removed */}
+          <Button
+            onClick={() => handleTryInPlatform('grok')}
+            onMouseEnter={() => setIsLLMButtonHovered(true)}
+            onMouseLeave={() => setIsLLMButtonHovered(false)}
+            className="bg-black hover:bg-gray-800 text-white transition-all duration-200"
+          >
+            <ExternalLink className="w-4 h-4 mr-2" />
+            Grok
+          </Button>
         </div>
 
         {/* Prompt Preview */}

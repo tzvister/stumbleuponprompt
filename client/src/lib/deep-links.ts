@@ -22,6 +22,12 @@ export function generateGeminiLink({ prompt, variables = {} }: DeepLinkOptions):
   return `https://gemini.google.com/app`;
 }
 
+export function generateGrokLink({ prompt, variables = {} }: DeepLinkOptions): string {
+  const finalPrompt = substituteVariables(prompt, variables);
+  const encodedPrompt = encodeURIComponent(finalPrompt);
+  return `https://grok.com/?q=${encodedPrompt}`;
+}
+
 export function generateOpenRouterLink({ prompt, variables = {} }: DeepLinkOptions): string {
   // OpenRouter deep link removed from UI; keep placeholder if referenced elsewhere
   const finalPrompt = substituteVariables(prompt, variables);
