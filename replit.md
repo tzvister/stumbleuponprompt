@@ -8,6 +8,12 @@ Preferred communication style: Simple, everyday language.
 
 # Recent Changes
 
+## August 17, 2025
+- Enhanced variable description UX with smooth fade-in animations when users start typing
+- Added Grok integration as fourth AI platform alongside ChatGPT, Claude, and Gemini
+- Updated button layout to accommodate all four AI platforms (grid-cols-4)
+- Improved variable input experience while maintaining original placeholder descriptions
+
 ## August 16, 2025
 - Removed user authentication system per user request
 - Removed prompt rating and save functionality
@@ -42,7 +48,7 @@ Preferred communication style: Simple, everyday language.
 - **Prompt Management**: Full CRUD operations for prompts with metadata (tags, categories)
 - **Search & Filtering**: Text search and filtering by categories, tags, and compatibility
 - **Creator Flow**: Form-based prompt creation with auto-linting and validation
-- **Deep Link Integration**: One-click "Try Now" buttons for ChatGPT, Claude, Gemini, and OpenRouter
+- **Deep Link Integration**: One-click "Try Now" buttons for ChatGPT, Claude, Gemini, and Grok
 
 ## Data Models
 - **Prompts**: Core entity with title, description, content, tags, categories, usage metrics, and variable extraction
@@ -62,8 +68,8 @@ Preferred communication style: Simple, everyday language.
 ### Deep Link Integrations
 - **ChatGPT**: Direct links to chat.openai.com with pre-filled prompts
 - **Claude**: Integration with claude.ai chat interface
-- **Gemini**: Links to Google's Gemini chat interface
-- **OpenRouter**: Playground integration for model comparison
+- **Gemini**: Links to Google's Gemini chat interface (copy & paste mode)
+- **Grok**: Integration with grok.com using URL parameter pre-filling
 
 ### Development Tools
 - **Replit Integration**: Development banner and error overlay for Replit environment
