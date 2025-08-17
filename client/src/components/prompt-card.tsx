@@ -178,7 +178,7 @@ export function PromptCard({ prompt, onNext, onPrevious, onUse }: PromptCardProp
             </div>
           </div>
           
-          <div className="text-right ml-4">
+          <div className="text-right ml-4 hidden lg:block">
             <div className="text-sm text-muted-foreground">
               ~{prompt.estimatedTokens} tokens
             </div>
