@@ -26,11 +26,21 @@ export function PromptCard({ prompt, onNext, onPrevious, onUse }: PromptCardProp
   const [variables, setVariables] = useState<Record<string, string>>({});
   const [isLLMButtonHovered, setIsLLMButtonHovered] = useState(false);
   const [showTipOverlay, setShowTipOverlay] = useState(false);
+  const [activeVariables, setActiveVariables] = useState<Set<string>>(new Set());
 
   const promptVariables = extractVariables(prompt.prompt);
 
   const handleVariableChange = (variable: string, value: string) => {
     setVariables(prev => ({ ...prev, [variable]: value }));
+    
+    // Mark variable as active when user starts typing
+    if (value.trim() && !activeVariables.has(variable)) {
+      setActiveVariables(prev => new Set(prev).add(variable));
+    }
+  };
+
+  const handleVariableFocus = (variable: string) => {
+    setActiveVariables(prev => new Set(prev).add(variable));
   };
 
   const handleCopyPrompt = async () => {
@@ -184,14 +194,10 @@ export function PromptCard({ prompt, onNext, onPrevious, onUse }: PromptCardProp
                     {formatVariableName(variable)}
                   </Label>
                   <Input
-                    placeholder={(
-                      (() => {
-                        const map = (prompt as any)?.variableDescriptions || {};
-                        return map[variable] ?? map[`{${variable}}`] ?? `Enter value for {${variable}}`;
-                      })()
-                    )}
+                    placeholder={`Enter ${formatVariableName(variable)}`}
                     value={variables[variable] || ''}
                     onChange={(e) => handleVariableChange(variable, e.target.value)}
+                    onFocus={() => handleVariableFocus(variable)}
                     className={`transition-all duration-300 ${
                       isLLMButtonHovered && hasEmptyVariables && !variables[variable]?.trim()
                         ? 'ring-2 ring-primary/50 ring-offset-2 animate-pulse'
@@ -199,7 +205,11 @@ export function PromptCard({ prompt, onNext, onPrevious, onUse }: PromptCardProp
                     }`}
                   />
                   {prompt.variableDescriptions && (prompt.variableDescriptions as Record<string, string>)[variable] && (
-                    <div className="text-xs text-muted-foreground mt-1">
+                    <div className={`text-xs text-muted-foreground mt-1 h-5 transition-all duration-300 ease-in-out ${
+                      activeVariables.has(variable) 
+                        ? 'opacity-100 translate-y-0' 
+                        : 'opacity-0 -translate-y-1'
+                    }`}>
                       {(prompt.variableDescriptions as Record<string, string>)[variable]}
                     </div>
                   )}
