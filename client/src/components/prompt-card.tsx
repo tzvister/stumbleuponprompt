@@ -194,7 +194,12 @@ export function PromptCard({ prompt, onNext, onPrevious, onUse }: PromptCardProp
                     {formatVariableName(variable)}
                   </Label>
                   <Input
-                    placeholder={`Enter ${formatVariableName(variable)}`}
+                    placeholder={(
+                      (() => {
+                        const map = (prompt as any)?.variableDescriptions || {};
+                        return map[variable] ?? map[`{${variable}}`] ?? `Enter ${formatVariableName(variable)}`;
+                      })()
+                    )}
                     value={variables[variable] || ''}
                     onChange={(e) => handleVariableChange(variable, e.target.value)}
                     onFocus={() => handleVariableFocus(variable)}
