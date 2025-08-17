@@ -1,6 +1,6 @@
 # StumbleUponPrompt Release Notes
 
-## Version 2.1.0 - August 17, 2025
+## Version 0.1.1 - August 17, 2025
 
 ### 🎉 Major Features
 
@@ -60,7 +60,7 @@
 
 ## Previous Releases
 
-### Version 2.0.0 - August 16, 2025
+### Version 0.1.0 - August 16, 2025
 - Removed user authentication system for simplified experience
 - Streamlined data model focusing on core discovery features
 - Moved to static JSON-based prompt storage
