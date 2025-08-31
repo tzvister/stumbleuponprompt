@@ -1,32 +1,35 @@
-import { sql } from "drizzle-orm";
-import { pgTable, text, varchar, integer, real, timestamp, jsonb } from "drizzle-orm/pg-core";
-import { createInsertSchema } from "drizzle-zod";
 import { z } from "zod";
 
-export const prompts = pgTable("prompts", {
-  id: varchar("id").primaryKey().default(sql`gen_random_uuid()`),
-  title: text("title").notNull(),
-  description: text("description").notNull(),
-  prompt: text("prompt").notNull(),
-  tags: jsonb("tags").$type<string[]>().notNull().default([]),
-  estimatedTokens: integer("estimated_tokens").notNull().default(0),
-  useCount: integer("use_count").notNull().default(0),
-  creatorName: text("creator_name").notNull(),
-  variables: jsonb("variables").$type<string[]>().notNull().default([]),
-  variableDescriptions: jsonb("variable_descriptions").$type<Record<string, string>>().default({}),
-  testedOn: jsonb("tested_on").$type<string[]>().notNull().default([]),
-  version: text("version").notNull().default("1.0.0"),
-  lastUpdated: timestamp("last_updated").defaultNow(),
-  createdAt: timestamp("created_at").defaultNow(),
-});
-
-export const insertPromptSchema = createInsertSchema(prompts).omit({
-  id: true,
-  useCount: true,
-  createdAt: true,
-  lastUpdated: true,
+// Insertable prompt payload (from clients)
+export const insertPromptSchema = z.object({
+  title: z.string().min(1),
+  description: z.string().min(1),
+  prompt: z.string().min(1),
+  creatorName: z.string().min(1),
+  tags: z.array(z.string()).default([]).optional(),
+  variables: z.array(z.string()).default([]).optional(),
+  variableDescriptions: z.record(z.string()).default({}).optional(),
+  testedOn: z.array(z.string()).default([]).optional(),
+  estimatedTokens: z.number().int().nonnegative().default(0).optional(),
+  version: z.string().default("1.0.0").optional(),
 });
 
 export type InsertPrompt = z.infer<typeof insertPromptSchema>;
-export type Prompt = typeof prompts.$inferSelect;
 
+// Full Prompt stored/returned by the API
+export interface Prompt {
+  id: string;
+  title: string;
+  description: string;
+  prompt: string;
+  tags: string[];
+  estimatedTokens: number;
+  useCount: number;
+  creatorName: string;
+  variables: string[];
+  variableDescriptions: Record<string, string>;
+  testedOn: string[];
+  version: string;
+  lastUpdated: Date | null;
+  createdAt: Date | null;
+}

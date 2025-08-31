@@ -105,30 +105,37 @@ A discovery platform for high-quality AI prompts with a "stumble through" experi
 - `npm run dev` - Start development server with hot reloading
 - `npm run build` - Build for production
 - `npm run preview` - Preview production build locally
-- `npm run db:generate` - Generate database migrations
-- `npm run db:push` - Apply database schema changes
 
 ### Environment Variables
 
 ```env
-# Database (optional - uses in-memory storage by default)
-DATABASE_URL="postgresql://user:password@localhost:5432/stumbleuponprompt"
-
 # Development
 NODE_ENV="development"
+
+# Security & limits
+# Maximum JSON/body size accepted by the server (default 100kb)
+BODY_LIMIT="100kb"
+# Rate limiter (applies in production only)
+# API defaults: 100 requests/min; Health defaults: 30 requests/min
+RATE_LIMIT_WINDOW_MS=60000              # fallback window for both scopes
+RATE_LIMIT_MAX=100                      # fallback max for both scopes
+RATE_LIMIT_API_WINDOW_MS=60000          # API-specific window override
+RATE_LIMIT_API_MAX=100                  # API-specific max override
+RATE_LIMIT_HEALTH_WINDOW_MS=60000       # Health-specific window override
+RATE_LIMIT_HEALTH_MAX=30                # Health-specific max override
 ```
 
-### Database Setup (Optional)
+### Data Storage
 
-The app works with in-memory storage by default. For persistent data:
+The app uses in-memory storage by default (`server/storage.ts`). There is no external database required.
 
-1. Set up a PostgreSQL database
-2. Add `DATABASE_URL` to your `.env` file  
-3. Run database migrations:
-   ```bash
-   npm run db:generate
-   npm run db:push
-   ```
+### Security Notes
+
+- HTTP headers: `helmet` is enabled (no CSP by default). HSTS active in production.
+- Rate limiting: `express-rate-limit` protects `/api/*` (default 100/min) and `/health` (default 30/min) in production.
+  - Tune via `RATE_LIMIT_API_*`, `RATE_LIMIT_HEALTH_*`, or fallback `RATE_LIMIT_*` env vars.
+- Body size limits: Requests are limited by `BODY_LIMIT` (default `100kb`). Increase if posting larger payloads.
+- Query validation: `/api/prompts` validates `search` and `tags` parameters; invalid values return `400`.
 
 ## 📊 Prompt Data Management
 
