@@ -1,10 +1,64 @@
 import express, { type Request, Response, NextFunction } from "express";
+import helmet from "helmet";
+import rateLimit from "express-rate-limit";
 import { registerRoutes } from "./routes";
 import { setupVite, serveStatic, log } from "./vite";
 
 const app = express();
-app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+
+// Environment and limits
+const nodeEnv = process.env.NODE_ENV || 'development';
+const bodyLimit = process.env.BODY_LIMIT || '100kb';
+
+// Security headers (no CSP by default). Enable HSTS only in production.
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+    crossOriginEmbedderPolicy: false,
+    hsts: nodeEnv === 'production' ? undefined : false,
+  })
+);
+
+// Body parsers with explicit limits
+app.use(express.json({ limit: bodyLimit }));
+app.use(express.urlencoded({ extended: false, limit: bodyLimit }));
+
+// Rate limiting (disabled in development)
+if (nodeEnv !== 'development') {
+  const apiWindowMs = parseInt(
+    process.env.RATE_LIMIT_API_WINDOW_MS || process.env.RATE_LIMIT_WINDOW_MS || '60000',
+    10
+  );
+  const apiMax = parseInt(
+    process.env.RATE_LIMIT_API_MAX || process.env.RATE_LIMIT_MAX || '100',
+    10
+  );
+
+  const healthWindowMs = parseInt(
+    process.env.RATE_LIMIT_HEALTH_WINDOW_MS || process.env.RATE_LIMIT_WINDOW_MS || '60000',
+    10
+  );
+  const healthMax = parseInt(
+    process.env.RATE_LIMIT_HEALTH_MAX || process.env.RATE_LIMIT_MAX || '30',
+    10
+  );
+
+  const apiLimiter = rateLimit({
+    windowMs: apiWindowMs,
+    max: apiMax,
+    standardHeaders: true,
+    legacyHeaders: false,
+  });
+  const healthLimiter = rateLimit({
+    windowMs: healthWindowMs,
+    max: healthMax,
+    standardHeaders: true,
+    legacyHeaders: false,
+  });
+
+  app.use('/api', apiLimiter);
+  app.use('/health', healthLimiter);
+}
 
 app.use((req, res, next) => {
   const start = Date.now();
@@ -53,7 +107,6 @@ process.on('unhandledRejection', (reason, promise) => {
     
     // Validate critical environment variables
     const port = parseInt(process.env.PORT || '5000', 10);
-    const nodeEnv = process.env.NODE_ENV || 'development';
     
     if (isNaN(port) || port <= 0 || port > 65535) {
       throw new Error(`Invalid port: ${process.env.PORT}. Must be a valid number between 1 and 65535.`);

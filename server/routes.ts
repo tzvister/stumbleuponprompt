@@ -31,21 +31,47 @@ export async function registerRoutes(app: Express): Promise<Server> {
     }
   });
 
-  // Get all prompts
+  // Get all prompts with validated query params
   app.get("/api/prompts", async (req, res) => {
     try {
-      const { tags, search } = req.query;
-      
+      const querySchema = z.object({
+        search: z.string().trim().min(1).max(200).optional(),
+        tags: z.string().trim().min(1).max(500).optional(),
+      });
+
+      const parsed = querySchema.safeParse({
+        search: req.query.search,
+        tags: req.query.tags,
+      });
+
+      if (!parsed.success) {
+        return res.status(400).json({
+          message: "Invalid query parameters",
+          errors: parsed.error.flatten(),
+        });
+      }
+
+      const { search, tags } = parsed.data;
+
       let prompts;
-      if (search && typeof search === 'string') {
+      if (search) {
         prompts = await storage.searchPrompts(search);
-      } else if (tags && typeof tags === 'string') {
-        const tagArray = tags.split(',').map(tag => tag.trim()).filter(Boolean);
+      } else if (tags) {
+        const tagArray = tags
+          .split(',')
+          .map((tag) => tag.trim())
+          .filter(Boolean);
+
+        // Basic tag validation: limit length per tag
+        if (tagArray.length === 0 || tagArray.some((t) => t.length > 32)) {
+          return res.status(400).json({ message: "Invalid tags format" });
+        }
+
         prompts = await storage.getPromptsByTags(tagArray);
       } else {
         prompts = await storage.getAllPrompts();
       }
-      
+
       res.json(prompts || []);
     } catch (error) {
       console.error('Error fetching prompts:', error);
