@@ -105,15 +105,10 @@ A discovery platform for high-quality AI prompts with a "stumble through" experi
 - `npm run dev` - Start development server with hot reloading
 - `npm run build` - Build for production
 - `npm run preview` - Preview production build locally
-- `npm run db:generate` - Generate database migrations
-- `npm run db:push` - Apply database schema changes
 
 ### Environment Variables
 
 ```env
-# Database (optional - uses in-memory storage by default)
-DATABASE_URL="postgresql://user:password@localhost:5432/stumbleuponprompt"
-
 # Development
 NODE_ENV="development"
 
@@ -130,17 +125,9 @@ RATE_LIMIT_HEALTH_WINDOW_MS=60000       # Health-specific window override
 RATE_LIMIT_HEALTH_MAX=30                # Health-specific max override
 ```
 
-### Database Setup (Optional)
+### Data Storage
 
-The app works with in-memory storage by default. For persistent data:
-
-1. Set up a PostgreSQL database
-2. Add `DATABASE_URL` to your `.env` file  
-3. Run database migrations:
-   ```bash
-   npm run db:generate
-   npm run db:push
-   ```
+The app uses in-memory storage by default (`server/storage.ts`). There is no external database required.
 
 ### Security Notes
 
